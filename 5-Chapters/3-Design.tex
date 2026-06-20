@@ -1,0 +1,148 @@
+\chapter{研究方法}
+\section{MEEP}
+
+本研究之電磁數值計算與幾何模型建立，採用由麻省理工學院（MIT）主導開發的開源模擬軟體套件 MEEP（MIT Electromagnetic Equation Propagation）。該軟體以高效的 C++ 為運算底層，並提供 Python 介面供使用者進行腳本建模與數據分析。在運算機制上，MEEP 核心採用時域有限差分法（FDTD）作為其電磁場的求解演算法，透過在時域中直接迭代求解麥克斯韋旋度方程，來模擬電磁波與特定結構之間的交互作用。
+
+在實務模擬中，MEEP 採用了「無量綱化（Dimensionless）」的單位系統。根據 MIT 官方文件之定義，MEEP 在底層演算法中將自由空間中的光速 $c$、真空介電常數 $\varepsilon_0$ 以及真空磁導率 $\mu_0$ 全數歸一化設定為 1。在此物理架構下，系統內的空間長度與時間步長將透過相同的單位進行度量，並以某一特定參考尺度（通常選用工作波長 $\lambda$）作為基準。因此，在建立幾何結構時，實際的物理長度與 MEEP 腳本中的數值換算關係如下：
+\begin{equation}
+	L_{\text{Real}} = L_{\text{MEEP}} \times \lambda
+\end{equation}
+其中，$L_{\text{Real}}$ 代表結構實體之物理尺寸（以微米 $\mu\text{m}$ 為單位），$L_{\text{MEEP}}$ 則是 MEEP 程式碼中所定義的無因次長度。舉例而言，若模擬所關注的特定工作波長設定為 $\lambda = 1.6\,\mu\text{m}$，則程式中的 1 個單位長度即等同於物理空間中的 $1.6\,\mu\text{m}$。此種歸一化設計對於微納光學元件的建模極具實用性，當需要微調或抽換模擬的目標波長時，研究者僅需變更參考尺度 $\lambda$，整體的幾何結構便會自動按比例縮放，免去了在代碼中逐一修正繁瑣網格與尺寸參數的程序。
+
+由於光速在系統中被定義為 1，電磁波在自由空間中傳遞一個參考波長 $\lambda$ 所需的時間，在 MEEP 中即對應為 1 個模擬時間單位。其實際物理時間與模擬時間之間的轉換關係可表達為：
+\begin{equation}
+	T_{\text{Real}} = T_{\text{MEEP}} \times \frac{\lambda}{c}
+\end{equation}
+同樣以 $\lambda = 1.6\,\mu\text{m}$ 的入射光為例，當系統向前推進 1 個 MEEP 時間單位時，經由真實光速 $c \approx 3 \times 10^{8}\,\text{m/s}$ 換算，其實際物理時間跨度約為 $5.33 \times 10^{-15}$ 秒（即 $5.33\,\text{fs}$）。
+
+在邊界條件方面，MEEP 可以設置不同的邊界來配合模型需求。針對無限延伸的開放空間，可以配置完美匹配層（Perfectly Matched Layer, PML）來吸收向外輻射的電磁波，避免截斷邊界產生的二次反射干擾；如果結構具有對稱性或週期性，也可以使用週期性邊界條件（Periodic Boundary Conditions, PBC）或 Bloch 邊界條件來縮減計算區域，節省運算資源。在波源設定上，軟體內建了平面波（Plane wave）、高斯波束（Gaussian beam）以及點光源偶極子（Dipole source）等不同類型，並且可以自由調整時域波形（如高斯脈衝或連續波）、空間位置和偏振方向，藉此量測不同的電磁激發模式與空間中的場強分佈。
+
+\section{色散關係量測與數值分析方法}
+在二維材料與金屬微納結構中，邊緣電漿子極化激元（Edge Plasmon Polaritons, EPPs）展現出強烈的局域化與特異的色散特性。為了精確捕捉並定量分析 EPPs 的色散關係（Dispersion Relation），本章採用時域有限差分法（Finite-Difference Time-Domain, FDTD）進行數值模擬。然而，若直接進行完整的三維空間模擬，不僅計算資源消耗極大，且難以在高頻率解析度下提取損耗模態。
+
+為此，本節發展了一套等效三維（2.5D）模擬架構，利用系統沿傳播方向的平移對稱性，結合布洛赫定理（Bloch's Theorem）引入傳播動量；並在時域信號處理中，引入諧振反演演算法（Harmonic Inversion, Harminv）。此方法能繞開傳統傅立葉轉換（FFT）受限於不確定性原理的頻率解析度瓶頸，在極短的時間序列中精確提取出各動量對應的複數諧振頻率與品質因子，從而建構出高精度的色散曲線。
+
+\subsection{考慮沿傳播方向動量之等效三維模擬設置}
+
+\noindent \textbf{(1) 布洛赫定理與傳播動量（波數）} \\
+本研究所探討的電漿子波導或二維材料邊界，在幾何結構上沿著傳播方向具有連續的平移對稱性，定義此傳播方向為 $z$ 軸。根據布洛赫定理（Bloch's Theorem），在該對稱性系統中傳播的電磁場，其空間分佈可解耦為橫截面（$x-y$ 平面）的包絡函數與沿傳播方向相位因子的乘積：
+\begin{equation}
+	\mathbf{E}(x, y, z) = \mathbf{u}(x, y) e^{i k_z z}
+\end{equation}
+其中，$\mathbf{u}(x, y)$ 為橫截面上的空間電場分佈函數，而 $k_z$ 為沿 $z$ 軸傳播方向的布洛赫波數（Bloch Wavevector），即傳播動量。在 MEEP 模擬架構中，利用此物理特性，我們可以將 $z$ 方向的空間模擬域縮減至單一網格層（$\Delta z$），並在 $z$ 方向邊界施加布洛赫週期性邊界條件（Bloch-periodic Boundary Conditions）。當指定一特定動量 $k_z$ 時，麥克斯韋方程組（Maxwell's Equations）中關於 $z$ 方向的空間偏導數將被解析代換為：
+\begin{equation}
+	\frac{\partial}{\partial z} \longrightarrow i k_z
+\end{equation}
+
+透過此物理代換，三維空間的波動方程在數值上被降維求解。例如，對於 $E_x$ 分量，其時域更新方程中的對 $z$ 微分項轉化為：
+\begin{equation}
+	i k_z H_y - \frac{\partial H_z}{\partial y} = \varepsilon \frac{\partial E_x}{\partial t}
+\end{equation}
+此設置即為等效三維（Equivalent 3D）模擬。藉由手動改變輸入的 $k_z$ 值（進行 $k$ 空間掃描），便能依序求解出各動量點對應的系統諧振響應。
+
+\vspace{1em}
+
+\noindent \textbf{(2) 模擬域幾何配置}\\
+本模擬之空間幾何主要包含金屬結構（如 Au、Ag 薄膜）之橫截面（$x-y$ Domain），且該結構在 $x$ 方向具有終端邊界（Edge），以供邊緣電漿子模式附著。為了在數值上完整且精確地建構此模擬環境，整體的幾何配置、邊界條件、激發源與觀測點設置如圖~\ref{fig:simulation_setup} 所示，具體參數分析如下：
+\begin{itemize}
+	\item \textbf{網格解析度（Resolution）：} 由於邊緣電漿子的場值在界面處呈指數衰減且局域化極強，為了避免數值色散誤差並精確捕捉邊緣場強，本模擬將空間網格解析度設定為高密度的網格配置（每單位長度切割為 200 個 Yee 網格）。
+	\item \textbf{完美匹配層（PML）：} 在 $x$ 與 $y$ 方向的外圍邊界設置完美匹配層（Perfectly Matched Layers, PML），用以完全吸收向外輻射的散射波。為了確保低頻段的長波長信號不發生邊界反射，依據 MEEP 數值設置規範，本模擬將 PML 之物理厚度設定為大於激發光源最大波長之半（$d_{\text{PML}} \ge \lambda_{\text{max}}/2$），藉此模擬向無限遠處開放的邊界環境。
+	\item \textbf{寬頻激發源設置：} 為了有效激發目標模態，本模擬將高斯脈衝偶極矩光源（Gaussian-pulsed Dipole Source）配置於結構之幾何邊緣，其時域數學形式為：
+	\begin{equation}
+		s(t) = e^{-i \omega_0 t} e^{-\frac{(t-t_0)^2}{2\sigma^2}}
+	\end{equation}
+	其中 $\omega_0$ 為中心角頻率，$\sigma$ 決定脈衝在時域的寬度。因應邊緣電漿子局域於邊界的物理特性，光源之極化方向設定為垂直於切口邊緣的 $E_x$ 分量，以利場能高效耦合至邊緣模式。
+	\item \textbf{時域信號觀測點：} 本模擬在距離激發源一段足夠距離的邊緣位置放置點監測器（Point Monitor），錄製特定場分量隨時間演化的序列數據。監測器與光源保持空間距離的目的，是為了讓源信號自身的直接輻射分量隨時間演化自然衰減，確保錄製到的主要為激發後在結構內部穩定傳播且由邊緣波導效應主導的電漿子模態信號。
+\end{itemize}
+% --- 這裡插入你的模擬架構示意圖 ---
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{simulation_setup.png} 
+	\caption{等效三維（2.5D）邊緣電漿子模擬幾何與元件配置之橫截面（$x-y$ 平面）示意圖。圖中深灰色區域為金（Au）薄膜結構，中央白色區域為空氣背景，外圍綠色斜線區域為完美匹配層（PML）吸收邊界。圖中亦明確標示了位於結構幾何邊緣之紅色正方形光源（Dipole Source）與保持特定傳播距離之藍色圓點時域監測器（Point Monitor）。}
+	\label{fig:simulation_setup_geometry}
+\end{figure}
+
+\vspace{1em} 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{dipole_source.png} 
+	\caption{高斯脈衝偶極矩光源（Dipole Source）在自由空間中激發之 $E_x$ 電磁場隨模擬時間之演化關係圖。該光源之中心角頻率設定為 $\omega_0 = 1.5$（MEEP 單位），頻寬為 $\Delta\omega = 2.0$。}
+	\label{fig:dipole_source_waveform}
+\end{figure}
+\subsection{Harminv 諧振分析之模式提取與數據處理程序}
+
+\noindent \textbf{(1) 諧振反演演算法（Harminv）之數學原理} \\
+在傳統的色散關係分析中，通常採用對時域採集信號進行快速傅立葉轉換（FFT）以獲取頻譜。然而，傳統 FFT 的頻率解析度 $\Delta f$ 受限於傅立葉不確定性原理：$\Delta f \cdot \Delta t \sim 1$。若要獲得高解析度的頻譜，必須極大地延長 FDTD 的模擬時間步數，這在包含材料或金屬損耗的系統中計算成本極高。此外，對於具備本徵損耗的電漿子系統，傳統 FFT 難以精確分離出相鄰近的損耗模式。
+
+本研究採用的 Harminv 演算法，將時域監測器錄製到的離散信號 $f(t)$ 視為數個獨立正弦衰減波（Decaying Sinusoids）的線性疊加，其數學模型表示為：
+\begin{equation}
+	f(t) = \sum_{n=1}^{N} a_n e^{-i \tilde{\omega}_n t} = \sum_{n=1}^{N} a_n e^{-i (\omega_{r,n} + i \gamma_n) t} = \sum_{n=1}^{N} a_n e^{-i \omega_{r,n} t} e^{\gamma_n t}
+\end{equation}
+其中，$a_n$ 為第 $n$ 個模式的複數振幅，$\tilde{\omega}_n$ 為複數角頻率。複數角頻率的實部 $\omega_{r,n}$ 代表該模式的本徵諧振頻率；虛部 $\gamma_n$ 代表該模式的時域衰減常數（Damping Rate）。品質因子（Quality Factor, $Q$）可由下式求得：
+\begin{equation}
+	Q_n = \frac{\omega_{r,n}}{2 |\gamma_n|}
+\end{equation}
+Harminv 在給定的頻率窗口內直接求解非線性最小平方法，因此可在時域信號尚未完全衰減完畢的短序列內，以超越傳統頻域轉換的解析度精確反演出 $\omega_{r,n}$ 與 $Q_n$。
+
+\vspace{1em}
+
+\noindent \textbf{(2) 色散關係數據處理與模式篩選流程} \\
+利用 MEEP 結合 Harminv 提取邊緣電漿子色散關係的完整數據處理程序如下：
+\begin{enumerate}
+	\item \textbf{動量掃描初始化：} 設定傳播波數的掃描範圍與步進值 $k_z$，並將其作為布洛赫邊界條件的輸入參數載入模擬環境。
+    \item \textbf{時域信號截斷：} 運行 FDTD 模擬。在進行數據處理時，主動切除前段包含高斯脈衝光源自身直接輻射的時間數據，僅保留光源場強自然衰減至趨近於零後、場值呈純粹自由本徵諧振與衰減的後半段時域信號 $E_x(t)$。
+	\item \textbf{模式提取與數值過濾：} 將截斷後的時域信號輸入 Harminv 核心，演算法會回傳在指定頻率區間內解出的多組數值解。為了排除數值噪聲產生的偽解（Spurious Modes），本研究設定嚴格的物理篩選機制，僅保留滿足殘差值 $\text{Error} < 10^{-3}$ 且振幅顯著的有效解。
+	\item \textbf{色散曲線繪製（k-Scan）：} 自動更新波數值 $k_{z,j} = k_{z,0} + j \cdot \Delta k_z$ 並重複上述計算。最終將所有通過篩選的有效數值點組合成二維數組 $(k_z, \omega_r)$。利用 Python 數據處理腳本，以波數 $k_z$ 為橫軸、諧振頻率 $\omega_r$ 為縱軸進行離散點繪製，藉此完整建構出邊緣電漿子極化激元的本徵色散關係曲線。
+\end{enumerate}
+
+
+\section{三維邊緣電漿子設置與數據擷取}
+\label{subsec:3D_EP_setup}
+
+承接前述由等效三維（2.5D）模擬所確立之色散分析基礎，為了進一步定量分析邊緣電漿子波包在動量空間中的實測近場分佈，本節建立完整三維（Full 3D）MEEP 模擬架構。本模擬不再透過 Bloch 週期性邊界條件限定單一傳播動量，而是在真實的三維有限空間中，以實空間點光源直接激發涵蓋所有傳播動量分量的邊緣電漿子波包，藉此獲取完整動量空間中的局域近場資訊。
+
+\noindent\textbf{(1) 三維幾何模型與材料參數配置} \\
+本三維模擬之計算區域（Computational Cell）設置為 $(s_x, s_y, s_z) = (3.0, 10.0, 2.0)\,\mu\mathrm{m}$，其中 $y$方向定義為邊緣電漿子之傳播方向，並刻意設定為相對較長之尺寸，以保留充足的傳播距離供後續空間頻譜分析。空間網格解析度設定為每單位長度切割為 100 個 Yee 網格（Resolution $= 100$），此解析度足以精確捕捉金屬尖角處的次波長局域強場突變。計算區域之外圍六面全數配置厚度 $0.5\,\mu\mathrm{m}$ 之完美匹配層（PML），用以吸收向外輻射之散射波並消除邊界處的人為反射。
+
+金屬結構採用金（Au）薄膜，其材料介電函數取自 MEEP 材料庫內建之 Drude--Lorentz 模型（\texttt{meep.materials.Au}）。薄膜幾何設置為一長方體區塊（\texttt{mp.Block}），厚度 $t$ 為可調變參數（本研究主要探討 $t = 40\,\mathrm{nm}$ 與 $t = 20\,\mathrm{nm}$ 兩組對照），並沿 $x$ 方向佔據計算區域之左半部分（中心位於 $x = -s_x/4$），使其右側邊界恰好對齊 $x = 0$，構成本研究所欲探討之金屬終端邊界（Edge）。
+
+光源方面採用單一高斯脈衝點光源（\texttt{mp.GaussianSource}），其極化方向設定為垂直於切口邊界之 $E_x$ 分量，並將光源置於緊鄰邊界處（$x = 0.01\,\mu\mathrm{m}$，$y=0$，$z=0$）。中心頻率設定為 $f_0 = 1.33$（MEEP 單位，約對應 $1.6505\,\mathrm{eV}$），頻寬為 $\Delta f = 0.8$。此寬頻設置確保激子能隙附近（尤其是高動量 $K$ 點區域之高能訊號）皆能被充分激發。此處點光源利用天然的寬頻動量分布特性，同時激發邊緣電漿子在所有可能動量 $Q_y$ 下的響應，這正是後續進行空間頻譜分解的物理基礎。
+
+\vspace{0.3cm}
+\noindent\textbf{(2) 局域電場數據之即時擷取} \\
+為了在有限計算資源下保留邊緣電漿子三維近場的時空演化資訊，本模擬透過 \texttt{mp.at\_every} 函式，以固定時間間隔 $\Delta t_\mathrm{sample} = 0.05$ 對傳播面進行即時取樣，總模擬時間設定為 $30$（MEEP 單位）。取樣面位於高度 $z = t/2 + 0.01\,\mu\mathrm{m}$ 處（即金屬薄膜上表面正上方，對應假設單層 TMD 平鋪之位置），擷取整個 $x$-$y$ 平面的時域橫向電場分布 $E_x(x,y,t)$。所有取樣數據於模擬結束後統一儲存為 \texttt{.npz} 數值陣列檔，供後續離線數據處理使用。
+
+\section{空間頻譜重構與數值訊號優化技術}
+\label{subsec:DSP_optimization}
+
+本節說明如何透過離線數位訊號處理（DSP），將前述擷取之實空間時域電場 $E_x(x,y,t)$ 轉化為高解析度動量空間中的二維頻譜。
+
+\noindent\textbf{(1) 時間軸傅立葉投影與共振能量選定} \\
+為了從寬頻高斯脈衝響應中提取對應特定谷激子共振窗口之單頻訊號，本研究針對時域穩態窗口 $t \in [t_\mathrm{start}, t_\mathrm{end}]$ 內的電場數據執行單頻率傅立葉投影。將時域電場矩陣與複數傅立葉核心（Fourier Kernel）進行內積投影：
+\begin{equation}
+	E_{x}^{(\omega)}(x,y) = \sum_{n} E_{x}(x,y,t_n)\,e^{-i\omega t_n}\,\Delta t_\mathrm{sample}
+	\label{eq:time_dft_324}
+\end{equation}
+此步驟可在單次模擬中，精確重構出目標共振能量下之穩態複數空間場分布 $E_{x}^{(\omega)}(x,y)$，不需針對每個目標能量重新進行模擬。
+
+值得注意的是，在此處數值處理中，目標觀測能量 $E$ 的選定具備明確的物理共振動機。本研究乃藉由前述第 3.2 節中利用等效三維色散分析所獲得之邊緣電漿子本徵色散關係，與單層 TMD 谷激子所具備之類光（Light-like）線性上能帶色散特徵進行交叉比對。兩者於能量--動量空間色散譜線上的交點，即確立了該系統近場耦合的共振窗口。因此，本節之後續分析乃鎖定此一交點所對應之特定共振能量 $E$（如 $1.65105\,\mathrm{eV}$）之頻道數據進行關鍵重構。
+
+\vspace{0.3cm}
+\noindent\textbf{(2) 空間窗函數處理} \\
+求得穩態複數場 $E_{x}^{(\omega)}(x,y)$ 後，需沿 $x$ 與 $y$ 方向執行二維快速傅立葉轉換（2D-FFT）以重構動量譜。然而，由於模擬晶胞橫向尺寸有限（傳播方向 $s_y = 10.0\,\mu\mathrm{m}$），實空間場強在邊界處被 PML 截斷，數值上等效於強加一矩形窗函數（Rectangular Window）。此邊界處的不連續突變在進行空間 FFT 時會引發頻譜洩漏（Spectral Leakage），導致動量空間出現虛假的旁瓣毛刺雜訊，干擾真實動量峰值的判讀。
+
+為抑制此數值偽訊，本研究在空間 FFT 計算前，沿電漿子傳播之 $y$ 方向乘上一標準漢寧窗（Hanning Window）函數：
+\begin{equation}
+	w_{\mathrm{Hanning}}(y) = \frac{1}{2}\left[1 - \cos\left(\frac{2\pi y}{s_y}\right)\right]
+\end{equation}
+利用漢寧窗在模擬邊界處平滑衰減至零的特性，可有效消除實空間邊界突變裁切所帶來的毛刺雜訊，使動量譜線更加清晰與收斂。
+
+\vspace{0.3cm}
+\noindent\textbf{(3) 空域補零高解析度插值（Zero-padding）} \\
+離散傅立葉轉換中動量空間的取樣解析度受限於實空間的原始網格數。若直接轉換，動量空間格點將過於粗糙，難以精確定位次波長尺度下的微小模式峰值位移。為此，本研究在 2D-FFT 運算中導入 8 倍空域補零（Zero-padding）技術，將轉換陣列尺寸擴展至 $n_{\mathrm{fft},x} \times n_{\mathrm{fft},y}$。在數值分析中，實空間補零等效於在動量空間進行高精度的內插處理，可在不改變原始模擬物理資訊的前提下，顯著提升動量譜的曲線平滑度與峰值定位精度。最終得到之高解析度動量空間電場表達式為：
+\begin{equation}
+	E_{x}(\mathbf{Q}) = \mathrm{FFT}_{\mathrm{2D}}\left[E_{x}^{(\omega)}(x,y)\cdot w_{\mathrm{Hanning}}(y)\right]
+	\label{eq:space_fft_324}
+\end{equation}
+經此優化轉換後，所求得之動量空間場強分佈 $|E_x(\mathbf{Q})|^2$ 之實測峰值位置，即可與前述等效三維色散分析所得之金屬薄膜本徵色散關係進行高精度之比對校驗。
