@@ -1,7 +1,6 @@
 %----------------------------------------------------------------------
 % 文獻討討
 %----------------------------------------------------------------------
-
 \chapter{研究理論}
 
 \section{FDTD}
@@ -32,7 +31,7 @@
 \subsubsection*{(1) TMDs 谷激子之贗自旋模型}
 % ─────────────────────────────────────────
 
-單層過渡金屬二硫族化合物（TMD-MLs）由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），其導帶與價帶的直接能隙位於第一布里淵區的 $K$ 與 $K^{\prime}$ 能谷 \cite{Xiao2012}。在光學激發下，由於二維材料的面外介電屏蔽極弱，庫侖交互作用顯著增強，進而形成束縛能高達數百 meV 的谷激子（Valley Excitons）\cite{Chernikov2014}。
+單層過渡金屬二硫族化合物（TMD-MLs）由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），其導帶與價帶的直接能隙位於第一布里淵區的 $K$ 與 $K^{\prime}$ 能谷 \cite{xiao2012}。在光學激發下，由於二維材料的面外介電屏蔽極弱，庫侖交互作用顯著增強，進而形成束縛能高達數百 meV 的谷激子（Valley Excitons）\cite{chernikov2014}。
 
 為了定量描述這組低能階的光學躍遷模式，本研究承襲實驗室先前建立之贗自旋模型（Pseudo-spin Model）\cite{Lin2024Phd}。將具有特定質心動量 $\hbar\mathbf{Q}$ 的 $K$ 谷激子態 $|\psi_{K,\mathbf{Q}}^{X}\rangle$ 與 $K^{\prime}$ 谷激子態 $|\psi_{K^{\prime},\mathbf{Q}}^{X}\rangle$ 作為一組二維正交本徵基底 \cite{Yu2014,Lin2024Phd}，系統在考慮電子--電洞（e-h）交換交互作用（Electron-Hole Exchange Interaction）下的本徵有效漢米爾頓矩陣可表示為：
 \begin{equation}
@@ -46,21 +45,21 @@
 \end{equation}
 其中 $E_{\tau,\mathbf{Q}}^{X(0)}$ 為未考慮交換交互作用時之雙重簡併粒子狀能帶，而 $\tilde{\Delta}_{\tau,\tau^{\prime}}(\mathbf{Q})$ 則為由庫侖交換場主導的能谷混合矩陣元 \cite{Lin2024Phd}。
 
-經由矩陣對角化求解後，系統之本徵態分裂為縱向極化（Longitudinal）的類光（Light-like）線性上能帶（$S=+$）與橫向極化（Transverse）的粒子狀下能帶（$S=-$）\cite{Qiu2015,Lin2024Phd}：
+經由矩陣對角化求解後，系統之本徵態分裂為縱向極化（Longitudinal）的類光（Light-like）線性上能帶（$S=+$）與橫向極化（Transverse）的粒子狀下能帶（$S=-$）\cite{qiu2015,Lin2024Phd}：
 \begin{equation}
 	E_{+,\mathbf{Q}}^{X} \approx E_0^{X} + 2\gamma Q,
 	\qquad
 	E_{-,\mathbf{Q}}^{X} = E_0^{X} + \frac{\hbar^2 Q^2}{2M^{X}}
 	\label{eq:exciton_dispersion}
 \end{equation}
-其中 $E_0^{X}$ 為激子之帶邊能量，$\gamma$ 為交換交互作用強度，$M^X$ 為激子有效質量 \cite{Lin2024Phd}。此處的縱向激子本徵躍遷偶極矩 $\mathbf{D}_{+,\mathbf{Q}}^{X}$ 永遠平行於其質心動量 $\mathbf{Q}$，即：
+其中 $E_0^{X}$ 為激子之帶邊能量，$\gamma$ 為交換交互作用強度，$M^X$ 為激子有效質量。此處的縱向激子本徵躍遷偶極矩 $\mathbf{D}_{+,\mathbf{Q}}^{X}$ 永遠平行於其質心動量 $\mathbf{Q}$，即：
 \begin{equation}
 	\mathbf{D}_{+,\mathbf{Q}}^{X} = D_B^X \hat{\mathbf{Q}},
 	\qquad
 	\mathbf{D}_{-,\mathbf{Q}}^{X} = -i D_B^X \hat{\mathbf{Q}}_\perp
 	\label{eq:exciton_dipole}
 \end{equation}
-其中 $\hat{\mathbf{Q}} = \mathbf{Q}/Q$ 為質心動量方向的單位向量，$\hat{\mathbf{Q}}_\perp$ 為其面內垂直方向，$D_B^X$ 為亮激子偶極矩大小 \cite{Lin2024Phd}。此偶極方向的差異在後續與邊緣電漿子局域近場的耦合中扮演著決定性的物理角色。
+其中 $\hat{\mathbf{Q}} = \mathbf{Q}/Q$ 為質心動量方向的單位向量，$\hat{\mathbf{Q}}_\perp$ 為其面內垂直方向，$D_B^X$ 為亮激子偶極矩大小。此偶極方向的差異在後續與邊緣電漿子局域近場的耦合中扮演著決定性的物理角色。
 
 % ─────────────────────────────────────────
 \subsubsection*{(2) 光與物質交互作用漢米爾頓量之推導}
@@ -104,7 +103,7 @@
 \subsubsection*{(3) 近場耦合矩陣元之推導}
 % ─────────────────────────────────────────
 
-在二次量化（Second Quantization）語言下，光物質交互作用漢米爾頓量作用於激子態的矩陣元可寫為 \cite{Lin2024Phd,Haug2009}：
+在二次量化（Second Quantization）語言下，光物質交互作用漢米爾頓量作用於激子態的矩陣元可寫為\cite{Lin2024Phd,Haug2009}：
 \begin{equation}
 	\tilde{M}_{S,\mathbf{Q}} = \langle S,\mathbf{Q}|\,\hat{H}_{I}\,|\mathrm{GS}\rangle
 	= \frac{1}{\sqrt{\Omega_A}}\sum_{vc\mathbf{k}} A_{S,\mathbf{Q}}^{vc*}(\mathbf{k})\,
