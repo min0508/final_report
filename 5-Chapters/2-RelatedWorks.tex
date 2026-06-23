@@ -25,8 +25,8 @@
 \section{激子多體理論與 Bethe-Salpeter 方程式（BSE）}
 \label{sec:theory_BSE}
 % ─────────────────────────────────────────
-在單層過渡金屬二硫族化合物（TMD-MLs）中，由於二維量子侷限系統的面外介電屏蔽效應微弱，顯著增強的庫侖交互作用使電子與電洞間的束縛能非常強 \cite{Chernikov2014}。傳統基於密度泛函理論（DFT）的單粒子能帶架構僅能描述獨立載子的準粒子（Quasiparticle）能量，無法有效捕捉電子與電洞之間的庫侖相干束縛態。因此，若要定量描述二維系統中的激子多體效應（Many-body effects），必須從多體微擾理論出發，首先構建激子系統的多體漢米爾頓量算符 $\hat{H}^{X}$ \cite{Lin2024Phd,Haug2009}：
-在單層過渡金屬二硫族化合物（TMD-MLs）中，由於二維量子侷限系統的面外介電屏蔽效應微弱，顯著增強的庫侖交互作用使電子與電洞間的束縛能非常強 \cite{Chernikov2014}。傳統基於密度泛函理論（DFT）的單粒子能帶架構僅能描述獨立載子的準粒子（Quasiparticle）能量，無法有效捕捉電子與電洞之間的庫侖相干束縛態。因此，若要定量描述二維系統中的激子多體效應（Many-body effects），必須從多體微擾理論出發，構建激子系統的多體漢米爾頓量算符 $\hat{H}^{X}$ \cite{Lin2024Phd,Haug2009}：
+
+在單層過渡金屬二硫族化合物（TMD-MLs）中，由於二維量子侷限系統的面外介電屏蔽效應微弱，顯著增強的庫侖交互作用使電子與電洞間的束縛能非常強 \cite{Chernikov2014}。傳統基於密度泛函理論（DFT）的單粒子能帶架構僅能描述獨立載子的準粒子（Quasiparticle）能量，無法有效捕捉電子與電洞之間的庫侖相干束縛態。因此，若要定量描述二維系統中的激子多體效應（Many-body effects），必須從多體微擾理論出發，構建激子系統的多體哈密頓量 $\hat{H}^{X}$ \cite{Lin2024Phd,Haug2009}：
 \begin{equation}
 	\hat{H}^{X} = \hat{H}_0 + \hat{H}_{\mathrm{eh}}^d + \hat{H}_{\mathrm{eh}}^x
 	\label{eq:H_exciton_total}
@@ -37,58 +37,65 @@
 	\hat{H}_{\mathrm{eh}}^d &= -\sum_{\mathbf{k}_{\mathrm{ex}}}\sum_{vck}\sum_{v'c'k'} V_{\mathbf{k}_{\mathrm{ex}}}^d(vc\mathbf{k}, v'c'\mathbf{k}') \, \hat{c}_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{\dagger}\hat{h}_{v,-\mathbf{k}}^{\dagger}\hat{h}_{v',-\mathbf{k}'}\hat{c}_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}} \label{eq:Hd_op} \\
 	\hat{H}_{\mathrm{eh}}^x &= \sum_{\mathbf{k}_{\mathrm{ex}}}\sum_{vck}\sum_{v'c'k'} V_{\mathbf{k}_{\mathrm{ex}}}^x(vc\mathbf{k}, v'c'\mathbf{k}') \, \hat{c}_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{\dagger}\hat{h}_{v,-\mathbf{k}}^{\dagger}\hat{h}_{v',-\mathbf{k}'}\hat{c}_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}} \label{eq:Hx_op}
 \end{align}
-此處，$\hat{H}_0$ 為自由載子的準粒子動能項，$\hat{H}_{\mathrm{eh}}^d$ 為電子--電洞直接庫侖交互作用項，$\hat{H}_{\mathrm{eh}}^x$ 則為電子--電洞交換交互作用項 \cite{Haug2009}。$\hat{c}_{c,\mathbf{k}}^{\dagger}$（$\hat{c}_{c,\mathbf{k}}$）為導帶電子的創生（湮滅）算符，$\hat{h}_{v,-\mathbf{k}}^{\dagger}$（$\hat{h}_{v,-\mathbf{k}}$）為價帶電洞的創生（湮滅）算符，$\mathbf{k}$ 為載子的單粒子波向量，而 $\mathbf{k}_{\mathrm{ex}}$ 則代表激子的質心動量（Center-of-mass momentum）\cite{Lin2024Phd}。準粒子動能 $\epsilon_{c,\mathbf{k}}$ 與 $\epsilon_{v,\mathbf{k}}$ 由單粒子能帶結構決定 \cite{Lin2024Phd}。其交互作用核中直接項與交換項的散射矩陣元分別定義為 \cite{Lin2024Phd,Haug2009}：
-\begin{equation}
-	V_{\mathbf{k}_{\mathrm{ex}}}^d(vc\mathbf{k}, v'c'\mathbf{k}') = \int\int d^{3}r_{1}d^{3}r_{2} \, \psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{*}(r_{1})\psi_{v,\mathbf{k}}(r_{2}) W(r_{1},r_{2}) \psi_{v'\mathbf{k}'}^{*}(r_{2})\psi_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}}(r_{1})
-\end{equation}
-\begin{equation}
-	V_{\mathbf{k}_{\mathrm{ex}}}^x(vc\mathbf{k}, v'c'\mathbf{k}') = \int\int d^{3}r_{1}d^{3}r_{2} \, \psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{*}(r_{1})\psi_{v',\mathbf{k}'}^{*}(r_{2}) V(r_{1}-r_{2}) \psi_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}}(r_{2})\psi_{v,\mathbf{k}}(r_{1})
-\end{equation}
-此處，$V(r_{1}-r_{2})$ 為裸庫侖交互作用（Bare Coulomb interaction），而 $W(r_{1},r_{2})$ 則為屏蔽庫侖交互作用（Screened Coulomb interaction）\cite{Lin2024Phd}。直接項導致載子間的吸引散射，而交換項則描述載子對的相干湮滅與重新激發過程 \cite{Lin2024Phd}。
 此處，$\hat{H}_0$ 為自由載子的準粒子動能項，$\hat{H}_{\mathrm{eh}}^d$ 為電子--電洞直接庫侖交互作用項，$\hat{H}_{\mathrm{eh}}^x$ 則為電子--電洞交換交互作用項 \cite{Haug2009}。$\hat{c}_{c,\mathbf{k}}^{\dagger}$（$\hat{c}_{c,\mathbf{k}}$）為導帶電子的創生（湮滅）算符，$\hat{h}_{v,-\mathbf{k}}^{\dagger}$（$\hat{h}_{v,-\mathbf{k}}$）為價帶電洞的創生（湮滅）算符，$\mathbf{k}$ 為載子的單粒子波向量，$\mathbf{k}_{\mathrm{ex}}$ 代表激子的質心動量（Center-of-mass momentum）\cite{Lin2024Phd}。其交互作用核中直接項與交換項的散射矩陣元分別定義為 \cite{Lin2024Phd,Haug2009}：
 \begin{align}
 	V_{\mathbf{k}_{\mathrm{ex}}}^d(vc\mathbf{k}, v'c'\mathbf{k}') &= \int\!\!\int d^{3}r_{1}\,d^{3}r_{2} \; \psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{*}(r_{1})\psi_{v,\mathbf{k}}(r_{2})\, W(r_{1},r_{2})\, \psi_{v'\mathbf{k}'}^{*}(r_{2})\psi_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}}(r_{1}) \\[4pt]
 	V_{\mathbf{k}_{\mathrm{ex}}}^x(vc\mathbf{k}, v'c'\mathbf{k}') &= \int\!\!\int d^{3}r_{1}\,d^{3}r_{2} \; \psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{*}(r_{1})\psi_{v',\mathbf{k}'}^{*}(r_{2})\, V(r_{1}-r_{2})\, \psi_{c',\mathbf{k}'+\mathbf{k}_{\mathrm{ex}}}(r_{2})\psi_{v,\mathbf{k}}(r_{1})
 \end{align}
-此處，$V(r_{1}-r_{2})$ 為裸庫侖交互作用（Bare Coulomb interaction），$W(r_{1},r_{2})$ 則為屏蔽庫侖交互作用（Screened Coulomb interaction）\cite{Lin2024Phd}。直接項導致載子間的吸引散射，交換項則描述載子對的相干湮滅與重新激發過程 \cite{Lin2024Phd}。
+此處，$V(r_{1}-r_{2})$ 為裸庫侖交互作用（Bare Coulomb interaction），$W(r_{1},r_{2})$ 則為屏蔽庫侖交互作用（Screened Coulomb interaction）\cite{Lin2024Phd}。直接項導致載子間的吸引散射，交換項則描述載子對的相干湮滅與重新激發過程 \cite{Lin2024Phd}。此兩組交互作用核之微觀費曼圖示意如圖~\ref{fig:bse_interactions} 所示。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\textwidth]{Figures/bse_interactions.png}
+	\caption{Bethe-Salpeter 方程式（BSE）中兩類交互作用核之微觀多體費曼圖示意。(a) 直接庫侖交互作用項（Direct Coulomb interaction）：電子與電洞間受介電屏蔽的吸引散射，為激子束縛態形成之根源，對應核 $V^d$；(b) 交換庫侖交互作用項（Exchange Coulomb interaction）：電子與電洞對之相干湮滅與重新激發過程，對應核 $V^x$，其非解析不連續性主導動量空間的縱橫劈裂與偶極方向選擇性。}
+	\label{fig:bse_interactions}
+\end{figure}
+
 物理上，激子的量子態波函數必須表示為自由電子--電洞對量子態的線性疊加 \cite{Yu2014}。若定義系統之無激子多體基態為 $|\mathrm{GS}\rangle$，則具有特定質心動量 $\hbar\mathbf{k}_{\mathrm{ex}}$ 的激子本徵態 $|S, \mathbf{k}_{\mathrm{ex}}\rangle$ 可展開為 \cite{Yu2014,Lin2024Phd}：
 \begin{equation}
 	|S, \mathbf{k}_{\mathrm{ex}}\rangle = \frac{1}{\sqrt{\Omega_A}} \sum_{vc\mathbf{k}} A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k}) \, \hat{c}_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}^{\dagger} \hat{h}_{v,-\mathbf{k}}^{\dagger} |\mathrm{GS}\rangle
 	\label{eq:exciton_state_BSE_theory}
 \end{equation}
-其中，$\Omega_A$ 為系統之歸一化面積，$S$ 為激子本徵能帶索引，係數 $A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k})$ 則為該對應配置下的波函數展開振幅，代表該載子對疊加的機率振幅（Probability amplitude）\cite{Lin2024Phd}。
-其中 $\Omega_A$ 為系統之歸一化面積，$S$ 為激子本徵能帶索引，展開係數 $A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k})$ 代表各載子對疊加的機率振幅（Probability amplitude）\cite{Lin2024Phd}。
-將激子本徵態 $|S, \mathbf{k}_{\mathrm{ex}}\rangle$ 帶入定常狀態的多體薛丁格方程（Many-body Schrödinger Equation）$\hat{H}^{X} |S, \mathbf{k}_{\mathrm{ex}}\rangle = E_{S,\mathbf{k}_{\mathrm{ex}}}^X |S, \mathbf{k}_{\mathrm{ex}}\rangle$，經由算符對易化簡與基態投影，即可嚴格導出標準的 Bethe-Salpeter 方程式（BSE）\cite{Lin2024Phd,Haug2009}：
+其中 $\Omega_A$ 為系統之歸一化面積，$S$ 為激子本徵能帶索引，展開係數 $A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k})$ 代表各載子對疊加的機率振幅（Probability amplitude）\cite{Lin2024Phd}。單粒子躍遷對經由集體相干疊加、在動量空間凝聚出激子本徵色散能帶的物理圖像示意如圖~\ref{fig:exciton_coherence} 所示。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.92\textwidth]{Figures/exciton_coherence.png}
+	\caption{單粒子載子對之集體相干疊加與雙粒子激子本徵色散能譜示意圖。（左）在單粒子電子波向量 $\mathbf{k}$ 空間中，價帶電洞（空心圓）與導帶電子（實心圓）受特定質心動量 $\hbar\mathbf{k}_{\mathrm{ex}}$ 聯結的集體多體躍遷（紅色箭頭）；（右）經由求解 Bethe-Salpeter 方程式對角化後，於激子質心動量 $k_{ex}$ 空間中，在準粒子連續帶（Continuum）下方所凝聚出的離散激子束縛態（Bound state）本徵色散能帶（紅線）。}
+	\label{fig:exciton_coherence}
+\end{figure}
+
 將上式代入定常狀態多體薛丁格方程 $\hat{H}^{X} |S, \mathbf{k}_{\mathrm{ex}}\rangle = E_{S,\mathbf{k}_{\mathrm{ex}}}^X |S, \mathbf{k}_{\mathrm{ex}}\rangle$，經由算符對易化簡與基態投影，可嚴格導出標準的 Bethe-Salpeter 方程式（BSE）\cite{Lin2024Phd,Haug2009}：
 \begin{equation}
 	(\epsilon_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}} - \epsilon_{v,\mathbf{k}}) A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k}) + \sum_{v'c'\mathbf{k}'} U_{\mathbf{k}_{\mathrm{ex}}}(vc\mathbf{k}, v'c'\mathbf{k}') A_{S,\mathbf{k}_{\mathrm{ex}}}^{v'c'}(\mathbf{k}') = E_{S,\mathbf{k}_{\mathrm{ex}}}^X A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k})
 	\label{eq:BSE_eigen}
 \end{equation}
-此處，$E_{S,\mathbf{k}_{\mathrm{ex}}}^X$ 為 $S$ 狀態激子在質心動量 $\mathbf{k}_{\mathrm{ex}}$ 下的本徵能量，而多體交互作用核則定義為：
 其中 $E_{S,\mathbf{k}_{\mathrm{ex}}}^X$ 為 $S$ 狀態激子在質心動量 $\mathbf{k}_{\mathrm{ex}}$ 下的本徵能量，多體交互作用核定義為：
 \begin{equation}
 	U_{\mathbf{k}_{\mathrm{ex}}}(vc\mathbf{k}, v'c'\mathbf{k}') = -V_{\mathbf{k}_{\mathrm{ex}}}^d(vc\mathbf{k}, v'c'\mathbf{k}') + V_{\mathbf{k}_{\mathrm{ex}}}^x(vc\mathbf{k}, v'c'\mathbf{k}')
 \end{equation}
-藉由數值對角化求解此特徵值方程，其特徵值與特徵向量即分別對應激子的本徵能量譜與包絡波函數振幅 \cite{Haug2009}。
-在求解獲得振幅後，可進一步定量計算決定激子狀態光學躍遷強度的激子躍遷偶極矩（Exciton Transition Dipole Moment）$\mathbf{D}_{S,\mathbf{k}_{\mathrm{ex}}}^{X}$ \cite{Lin2024Phd}：
 藉由數值對角化求解此特徵值方程，特徵值與特徵向量分別對應激子的本徵能量譜與包絡波函數振幅 \cite{Haug2009}。在求解獲得振幅後，可定量計算激子躍遷偶極矩（Exciton Transition Dipole Moment）$\mathbf{D}_{S,\mathbf{k}_{\mathrm{ex}}}^{X}$ \cite{Lin2024Phd}：
 \begin{equation}
 	\mathbf{D}_{S,\mathbf{k}_{\mathrm{ex}}}^{X} \equiv \frac{1}{\sqrt{\Omega_A}}\sum_{vc\mathbf{k}}A_{S,\mathbf{k}_{\mathrm{ex}}}^{vc}(\mathbf{k})\,\mathbf{d}_{cv,\mathbf{k}}
 	\label{eq:exciton_dipole_definition}
 \end{equation}
-此處，$\mathbf{d}_{cv,\mathbf{k}} \equiv e\langle\psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}|\mathbf{r}|\psi_{v,\mathbf{k}}\rangle$ 為單粒子 Scheme 下的單電子躍遷偶極矩 \cite{Lin2024Phd}。上述方程式~\eqref{eq:exciton_dipole_definition} 所建立的激子躍遷偶極矩，將作為後續第~\ref{sec:theory_coupling} 節推導近場微擾耦合矩陣元的直接理論依據 \cite{Lin2024Phd}。
 此處 $\mathbf{d}_{cv,\mathbf{k}} \equiv e\langle\psi_{c,\mathbf{k}+\mathbf{k}_{\mathrm{ex}}}|\mathbf{r}|\psi_{v,\mathbf{k}}\rangle$ 為單電子躍遷偶極矩 \cite{Lin2024Phd}。此關係式將作為第~\ref{sec:theory_coupling} 節推導近場耦合矩陣元的直接依據。
+
+
 % ─────────────────────────────────────────
-\section{TMDs 谷激子之贗自旋模型與類光色散}
+\section{TMDs 谷激子之 Pseudo-spin 模型與類光色散}
 \label{sec:theory_pseudospin}
 % ─────────────────────────────────────────
-上節所建立的 BSE 框架在應用於單層 TMD 時，由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），直接能隙位於第一布里淵區的 $K$ 與 $K'$ 能谷 \cite{Xiao2012}。在考慮電子--電洞（e-h）交換交互作用（Electron-Hole Exchange Interaction）後，兩個能谷的激子態相互混合，其本徵模式可透過贗自旋模型（Pseudo-spin Model）系統性地描述 \cite{Lin2024Phd}。
+
+上節所建立的 BSE 框架在應用於單層 TMD 時，由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），直接能隙位於第一布里淵區的 $K$ 與 $K'$ 能谷 \cite{Xiao2012}。在考慮電子--電洞（e-h）交換交互作用（Electron-Hole Exchange Interaction）後，兩個能谷的激子態相互混合，其本徵模式可透過 Pseudo-spin 模型系統性地描述 \cite{Lin2024Phd}。
+
 將具有特定質心動量 $\hbar \mathbf{Q}$ 的 $K$ 谷激子態 $|\psi^X_{K,\mathbf{Q}}\rangle$ 與 $K'$ 谷激子態 $|\psi^X_{K',\mathbf{Q}}\rangle$ 作為一組二維正交基底，考慮交換交互作用後，系統的有效本徵漢米爾頓矩陣可表示為 \cite{Lin2024Phd,Yu2014}：
 \begin{equation}
 	\hat{H}_X(\mathbf{Q}) = \begin{pmatrix} E^{(0)}_{K,\mathbf{Q}} + \tilde{\Delta}_{K,K}(\mathbf{Q}) & \tilde{\Delta}_{K,K'}(\mathbf{Q}) \\ \tilde{\Delta}^*_{K,K'}(\mathbf{Q}) & E^{(0)}_{K',\mathbf{Q}} + \tilde{\Delta}_{K',K'}(\mathbf{Q}) \end{pmatrix}
 	\label{eq:H_pseudospin}
 \end{equation}
 其中 $E^{(0)}_{\tau,\mathbf{Q}}$ 為未考慮交換交互作用時的雙重簡併激子能帶，$\tilde{\Delta}_{\tau,\tau'}(\mathbf{Q})$ 則為由庫侖交換場主導的能谷混合矩陣元 \cite{Lin2024Phd}。
+
 對上述矩陣進行對角化後，本徵模式分裂為兩支色散完全不同的激子能帶 \cite{Lin2024Phd,Qiu2015}：
 \begin{itemize}
 	\item \textbf{縱向（Longitudinal）類光上能帶}（$S = +$）：受長程交換交互作用驅動，在高動量極限下呈現線性色散，
@@ -100,99 +107,104 @@
 	\label{eq:exciton_dispersion}
 \end{equation}
 其中 $E^X_0$ 為激子之帶邊能量，$\gamma$ 為交換交互作用強度，$M^X$ 為激子有效質量 \cite{Lin2024Phd}。
+
 兩支本徵態的躍遷偶極矩方向具有本質差異 \cite{Lin2024Phd}：
 \begin{equation}
 	\mathbf{D}^X_{+,\mathbf{Q}} = D^X_B \hat{\mathbf{Q}}, \qquad \mathbf{D}^X_{-,\mathbf{Q}} = -i D^X_B \hat{\mathbf{Q}}_\perp
 	\label{eq:exciton_dipole_direction}
 \end{equation}
-其中 $\hat{\mathbf{Q}} = \mathbf{Q}/Q$ 為質心動量方向的單位向量，$\hat{\mathbf{Q}}_\perp$ 為其面內垂直方向，$D^X_B$ 為亮激子偶極矩大小 \cite{Lin2024Phd}。此偶極方向的差異在後續與邊緣電漿子局域近場的耦合中扮演著關鍵的物理角色：邊緣電漿子的近場極化方向決定了它優先與哪一支激子模式耦合。
+其中 $\hat{\mathbf{Q}} = \mathbf{Q}/Q$ 為質心動量方向的單位向量，$\hat{\mathbf{Q}}_\perp$ 為其面內垂直方向，$D^X_B$ 為亮激子偶極矩大小 \cite{Lin2024Phd}。此偶極方向的差異在後續與邊緣電漿子局域近場的耦合中扮演著關鍵的物理角色：邊緣電漿子的近場極化方向決定了它優先與哪一支激子模式耦合。兩支本徵態在動量空間中的偶極場分佈如圖~\ref{fig:dipole_fields} 所示。
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.46\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/D_plus.png}
+		\caption{縱向類光上能帶 $\mathbf{D}_{+,\mathbf{Q}}$：偶極矩方向平行於質心動量 $\mathbf{Q}$，呈輻射狀分佈。}
+		\label{fig:dipole_plus}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.46\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/D_minus.png}
+		\caption{橫向類粒子下能帶 $\mathbf{D}_{-,\mathbf{Q}}$：偶極矩方向垂直於質心動量 $\mathbf{Q}$，呈環狀渦旋分佈。}
+		\label{fig:dipole_minus}
+	\end{subfigure}
+	\caption{Pseudo-spin 模型兩支本徵激子態在質心動量 $\mathbf{Q}$ 空間中的躍遷偶極場（Transition Dipole Field）分佈。偶極方向的根本差異源自電子--電洞交換交互作用對兩個能谷激子態的不同混合方式，此幾何選擇性直接決定 EP 近場與各激子模式的耦合效率。}
+	\label{fig:dipole_fields}
+\end{figure}
+
 此外，上能帶（$S = +$）的類光線性色散 $E^X_{+,\mathbf{Q}} \approx E^X_0 + 2\gamma Q$ 在動量空間中形成一個以光子色散斜率（$\sim c$）遠小於聲速的斜率（$2\gamma/\hbar$）存在的線性錐，此即「類光激子（Light-like exciton）」名稱的由來。這條線性色散曲線與邊緣電漿子的色散曲線的共振交點，正是本研究在第四章中分析動量工程的核心目標。
+
+
 % ─────────────────────────────────────────
 \section{邊緣電漿子與谷激子之近場耦合理論}
 \label{sec:theory_coupling}
 % ─────────────────────────────────────────
-本節以第~\ref{sec:theory_BSE} 節所建立之激子多體理論為基礎，建立邊緣電漿子（Edge Dipole Plasmon, EDP）局域近場與單層 TMD 谷激子之間近場耦合的完整微擾理論框架，並推導出本研究計算光學躍遷速率所依賴的兩個核心方程式。
-本節整合前兩節所建立的激子多體理論（第~\ref{sec:theory_BSE} 節）與贗自旋模型（第~\ref{sec:theory_pseudospin} 節），建立邊緣電漿子（Edge Plasmon, EDP）局域近場與單層 TMD 谷激子之間近場耦合的完整微擾理論框架，整體推導分為以下三個步驟：（1）光與物質交互作用漢米爾頓量；（2）近場耦合矩陣元；（3）費米黃金律與光學躍遷速率。
+
+本節以第~\ref{sec:theory_BSE} 節的激子多體理論與第~\ref{sec:theory_pseudospin} 節的贗自旋模型為基礎，建立邊緣電漿子（Edge Plasmon, EP）局域近場與單層 TMD 谷激子之間的近場微擾耦合理論，推導分為三個步驟：（1）光與物質交互作用漢米爾頓量；（2）近場耦合矩陣元；（3）費米黃金律與光學躍遷速率。
+
 \subsection{光與物質交互作用漢米爾頓量}
-考慮一個電子在電磁場中運動的完整系統，其總漢米爾頓量可寫為 \cite{Loudon2000,Fox2001}：
+
+考慮電子在電磁場中的完整漢米爾頓量 \cite{Loudon2000,Fox2001}：
 \begin{equation}
 	\hat{H}_{\text{tot}} = \hat{H}_0 + \hat{H}_{\text{LMI}}
 \end{equation}
-在電磁學的庫侖規範（Coulomb Gauge）下，即 $\phi(\mathbf{r}, t) = 0$ 且 $\nabla \cdot \mathbf{A}(\mathbf{r}, t) = 0$，光物質交互作用（Light-Matter Interaction, LMI）漢米爾頓量在弱場近似下化簡為一階微擾項 \cite{Weiner2008}：
-其中未受擾系統的漢米爾頓量為 $\hat{H}_0 = \mathbf{p}^2/2m_0 + V(\mathbf{r})$，$m_0$ 為自由電子質量，$V(\mathbf{r})$ 為週期性晶格電位。光與物質交互作用（Light-Matter Interaction, LMI）漢米爾頓量的完整形式為 \cite{Weiner2008}：
+其中 $\hat{H}_0 = \mathbf{p}^2/2m_0 + V(\mathbf{r})$ 為週期晶格中的自由電子哈密頓量。光與物質交互作用（Light-Matter Interaction, LMI）哈密頓量的完整形式為 \cite{Weiner2008}：
 \begin{equation}
 	\hat{H}_{\text{LMI}} = \frac{e}{m_0} \mathbf{A}(\mathbf{r}, t) \cdot \mathbf{p} + \frac{e^2 \mathbf{A}^2(\mathbf{r}, t)}{2m_0} + e\phi(\mathbf{r}, t)
 \end{equation}
-其中 $e$ 為電子基本電荷，$\mathbf{A}(\mathbf{r}, t)$ 與 $\phi(\mathbf{r}, t)$ 分別為電磁場的向量勢與純量勢。在電磁學的庫侖規範（Coulomb Gauge）下，純量勢為零且向量勢滿足橫向條件：
+其中 $e$ 為電子電荷，$\mathbf{A}(\mathbf{r}, t)$ 與 $\phi(\mathbf{r}, t)$ 分別為電磁場的向量勢與純量勢。在庫侖規範（Coulomb Gauge）下：
 \begin{equation}
 	\phi(\mathbf{r}, t) = 0, \qquad \nabla \cdot \mathbf{A}(\mathbf{r}, t) = 0
 \end{equation}
-庫侖規範保證 $[\mathbf{p}, \mathbf{A}] = 0$，使純量勢貢獻消失。進一步在弱場近似（Weak-field Approximation）下，$\mathbf{A}^2$ 項為二階小量可忽略，得到一階微擾漢米爾頓量：
+庫侖規範保證 $[\mathbf{p}, \mathbf{A}] = 0$，純量勢項消失。在弱場近似下捨去二階的 $\mathbf{A}^2$ 項，得到一階微擾漢米爾頓量：
 \begin{equation}
 	\hat{H}_{\text{LMI}} \approx \frac{e}{m_0} \mathbf{A}(\mathbf{r}, t) \cdot \mathbf{p}
 \end{equation}
-其中 $e$ 為電子基本電荷，$m_0$ 為自由電子質量，$\mathbf{A}(\mathbf{r}, t)$ 為電磁場的複數向量勢。對於邊緣電漿子場源，取其複數向量勢 $\mathbf{A}_{\text{EDP}}(\mathbf{r}, t)$ 作為微擾，代入後得到系統的微擾哈密頓量：
-取向量勢的實部表示 $\mathbf{A}(\mathbf{r}, t) = \frac{1}{2}(\mathbf{A}_{\text{EP}} + \mathbf{A}^*_{\text{EP}})$，其中 $\mathbf{A}_{\text{EP}}(\mathbf{r}, t)$ 為邊緣電漿子的複數向量勢，代入後得到：
+取邊緣電漿子複數向量勢 $\mathbf{A}_{\text{EP}}(\mathbf{r}, t)$ 的實部代入，即 $\mathbf{A} = \frac{1}{2}(\mathbf{A}_{\text{EP}} + \mathbf{A}^*_{\text{EP}})$：
 \begin{equation}
-	\hat{H}_{I} = \frac{e}{2m_0} \left( \mathbf{A}_{\text{EDP}}(\mathbf{r}, t) \cdot \mathbf{p} + \mathbf{A}^*_{\text{EDP}}(\mathbf{r}, t) \cdot \mathbf{p} \right)
 	\hat{H}_{I} = \frac{e}{2m_0} \left( \mathbf{A}_{\text{EP}}(\mathbf{r}, t) \cdot \mathbf{p} + \mathbf{A}^*_{\text{EP}}(\mathbf{r}, t) \cdot \mathbf{p} \right)
 	\label{eq:H_LMI_EP}
 \end{equation}
-此即本研究所採用的光物質交互作用微擾漢米爾頓量，與實驗室既有理論架構一致 \cite{Lin2024Phd,Weiner2008}。
+
 \subsection{近場耦合矩陣元}
-此處需要特別強調：邊緣電漿子（EDP）與傳統表面電漿極化子（SPP）在場結構上有本質差異，兩者的近場耦合矩陣元不可混用。SPP 傳播於二維金屬--介電質界面，其場沿垂直於界面方向的指數衰減 $e^{-\kappa z}$ 可由 SPP 色散關係直接解析推導，衰減常數 $\kappa$ 具有封閉解析表達式。\textbf{邊緣電漿子則根本不同}：EDP 的模式侷限於金屬薄膜的幾何邊緣，沿邊緣方向作一維傳播，場在垂直邊緣的平面內同時朝兩個空間方向（垂直於薄膜表面 $z$ 方向，以及橫向離開邊緣的 $x$ 方向）衰減。這種二維局域化的場型結構使得 EDP 的近場分佈不存在任何封閉的解析表達式，必須完整地仰賴數值模擬。
-此處需要特別強調：邊緣電漿子（EDP）與傳統表面電漿極化子（SPP）在場結構上具有本質差異，兩者的近場耦合矩陣元不可混用。SPP 傳播於二維金屬--介電質界面，其場沿垂直於界面方向的指數衰減 $e^{-\kappa z}$ 可由色散關係直接解析推導，衰減常數 $\kappa$ 具有封閉解析表達式。\textbf{邊緣電漿子則根本不同}：EDP 的模式侷限於金屬薄膜的幾何邊緣，沿邊緣方向作一維傳播，場在垂直邊緣的平面內同時朝兩個空間方向（垂直於薄膜表面 $z$ 方向，以及橫向離開邊緣的 $x$ 方向）衰減。這種二維局域化的場型結構使得 EDP 的近場分佈不存在任何封閉的解析表達式，必須完整地仰賴數值模擬。
-因此，EDP 版本的耦合矩陣元中，不能引入任何來自 SPP 理論的解析場型假設（例如 $e^{-\kappa d}$ 分離因子）。正確的處理方式是：在 MEEP 三維有限差分時域模擬中，直接在單層 TMD 所在的平面高度 $z = d$ 處對電場進行取樣，獲得 EDP 在該平面上完整的實空間近場分佈 $\mathbf{E}_{\text{EDP}}(\mathbf{r}_{\parallel}, z=d)$，再透過二維傅立葉轉換轉換至動量空間，並利用 $\mathbf{A} = \mathbf{E}/i\omega$ 換算為向量勢：
-因此，正確的處理方式是：在 MEEP 三維有限差分時域模擬中，直接在單層 TMD 所在的平面高度 $z = d$ 處對電場進行取樣，獲得 EDP 在該平面上完整的實空間近場分佈 $\mathbf{E}_{\text{EDP}}(\mathbf{r}_{\parallel}, z=d)$，再透過二維傅立葉轉換至動量空間，並利用 $\mathbf{A} = \mathbf{E}/i\omega$ 換算為向量勢：
+
+邊緣電漿子（EP）與表面電漿極化子（SPP）在場結構上有本質差異。SPP 場沿垂直於金屬界面的 $z$ 方向呈指數衰減 $e^{-\kappa z}$，衰減常數 $\kappa$ 可由色散關係解析給出。EP 的模式侷限於金屬薄膜的幾何邊緣，場在 $z$ 方向與橫向離邊緣的 $x$ 方向同時衰減，整個二維場型不存在封閉解析式。
+
+因此，EP 近場分佈必須完全由數值模擬提取：在 MEEP 模擬中，於 TMD 所在的平面高度 $z = d$ 處取樣電場，得到實空間分佈 $\mathbf{E}_{\text{EP}}(\mathbf{r}_{\parallel}, z=d)$，再透過二維傅立葉轉換與 $\mathbf{A} = \mathbf{E}/i\omega$ 換算得到動量空間向量勢：
 \begin{equation}
-	\mathbf{A}_{k_{EDP}}(\mathbf{Q})\big|_{z=d}
+	\mathbf{A}_{k_{EP}}(\mathbf{Q})\big|_{z=d}
 	= \frac{1}{i\omega} \int d^2r_{\parallel}\,
-	\mathbf{E}_{\text{EDP}}(\mathbf{r}_{\parallel}, z=d)\,
+	\mathbf{E}_{\text{EP}}(\mathbf{r}_{\parallel}, z=d)\,
 	e^{-i\mathbf{Q}\cdot\mathbf{r}_{\parallel}}
-	\label{eq:A_EDP_fourier}
+	\label{eq:A_EP_fourier}
 \end{equation}
-此數值量已完整包含 EDP 場型在 TMD 平面處的所有空間衰減與邊緣局域化資訊，無需額外引入任何解析衰減因子。
-在電偶極近似（Electric Dipole Approximation）下，假設 EDP 近場在單一晶胞尺度內可視為空間均勻，利用動量矩陣元與偶極矩的聯繫關係 $\langle c|\mathbf{p}|v\rangle = (im_0 E_g/\hbar e)\mathbf{d}_{cv}$，以及第~\ref{sec:theory_BSE} 節所定義的激子躍遷偶極矩 Eq.~\eqref{eq:exciton_dipole_definition}，可將邊緣電漿子激發特定谷激子模式 $(S, \mathbf{Q})$ 的近場耦合矩陣元推導為 \cite{Lin2024Phd,Haug2009}：
-在電偶極近似（Electric Dipole Approximation）下，假設 EDP 近場在單一晶胞尺度內可視為空間均勻，利用動量矩陣元與偶極矩的標準聯繫關係：
+EP 場的所有空間衰減與邊緣局域化資訊均包含於此數值量中，不另行引入解析衰減因子。
+
+在電偶極近似（Electric Dipole Approximation）下，EP 近場在單一晶胞尺度內視為均勻，動量矩陣元透過下式化為偶極矩：
 \begin{equation}
-	\langle \psi_{c,\mathbf{k}+\mathbf{Q}} | \mathbf{p} | \psi_{v,\mathbf{k}} \rangle = \frac{im_0 E_g}{\hbar} \langle \psi_{c,\mathbf{k}+\mathbf{Q}} | \mathbf{r} | \psi_{v,\mathbf{k}} \rangle \equiv \frac{im_0 E_g}{\hbar e}\,\mathbf{d}_{cv,\mathbf{k}}
+	\langle \psi_{c,\mathbf{k}+\mathbf{Q}} | \mathbf{p} | \psi_{v,\mathbf{k}} \rangle
+	= \frac{im_0 E_g}{\hbar e}\,\mathbf{d}_{cv,\mathbf{k}}
 \end{equation}
-以及第~\ref{sec:theory_BSE} 節所定義的激子躍遷偶極矩 Eq.~\eqref{eq:exciton_dipole_definition}，在二次量化語言下展開矩陣元 $\langle S, \mathbf{Q} | \hat{H}_I | GS \rangle$ 並整理，可推導出邊緣電漿子激發特定谷激子模式 $(S, \mathbf{Q})$ 的近場耦合矩陣元 \cite{Lin2024Phd,Haug2009}：
+代入 Eq.~\eqref{eq:H_LMI_EP} 並利用激子本徵態展開式計算矩陣元 $\langle S, \mathbf{Q} | \hat{H}_I | GS \rangle$，再引入 Eq.~\eqref{eq:exciton_dipole_definition} 所定義的激子躍遷偶極矩，整理後得到近場耦合矩陣元 \cite{Lin2024Phd,Haug2009}：
 \begin{equation}
 	\boxed{
 		\tilde{M}_{S,\mathbf{Q}}
 		\approx \frac{E_g}{2i\hbar}\,
-		\mathbf{A}_{k_{EDP}}(\mathbf{Q})\big|_{z=d} \cdot \mathbf{D}^{X*}_{S,\mathbf{Q}}
+		\mathbf{A}_{k_{EP}}(\mathbf{Q})\big|_{z=d} \cdot \mathbf{D}^{X*}_{S,\mathbf{Q}}
 	}
-	\label{eq:coupling_matrix_element_EDP}
+	\label{eq:coupling_matrix_element_EP}
 \end{equation}
-其中 $E_g$ 為單層 TMD 之光學能隙，$\mathbf{D}^{X*}_{S,\mathbf{Q}}$ 為第 $S$ 支激子分支於質心動量 $\mathbf{Q}$ 處的本徵躍遷偶極矩共軛，由 Eq.~\eqref{eq:exciton_dipole_definition} 給出。
-其中 $E_g$ 為單層 TMD 之光學能隙，$\mathbf{D}^{X*}_{S,\mathbf{Q}}$ 為第 $S$ 支激子分支於質心動量 $\mathbf{Q}$ 處的本徵躍遷偶極矩共軛（由 Eq.~\eqref{eq:exciton_dipole_definition} 給出，其方向由 Eq.~\eqref{eq:exciton_dipole_direction} 的贗自旋模型決定）。
-此矩陣元的核心物理含義在於：EDP 模式在幾何邊緣產生的高動量局域近場，其動量空間分量 $\mathbf{A}_{k_{EDP}}(\mathbf{Q})|_{z=d}$ 與谷激子本徵偶極矩 $\mathbf{D}^{X*}_{S,\mathbf{Q}}$ 之向量內積，直接定量決定了近場耦合效率。EDP 在動量空間中具有極寬的場分佈（源自邊緣幾何的強烈實空間局域化），這使得它能有效地與動量空間光錐以外的高動量暗激子態發生共振耦合，此點與 SPP 在色散曲線交點附近激發的物理機制一致，但 EDP 可藉由薄膜厚度系統性地工程化其色散曲線，提供額外的自由度。
-此矩陣元的核心物理含義在於：EDP 模式在幾何邊緣產生的高動量局域近場，其動量空間分量 $\mathbf{A}_{k_{EDP}}(\mathbf{Q})|_{z=d}$ 與谷激子本徵偶極矩 $\mathbf{D}^{X*}_{S,\mathbf{Q}}$ 之向量內積，直接定量決定近場耦合效率。EDP 在動量空間中具有極寬的場分佈（源自邊緣幾何的強烈實空間局域化），使其能有效與動量空間光錐以外的高動量谷激子態發生共振耦合。
+其中 $E_g$ 為單層 TMD 之光學能隙，$\mathbf{D}^{X*}_{S,\mathbf{Q}}$ 為第 $S$ 支激子分支於質心動量 $\mathbf{Q}$ 處的本徵躍遷偶極矩共軛（方向由 Eq.~\eqref{eq:exciton_dipole_direction} 決定）。EP 在動量空間中具有寬廣的場分佈（源自邊緣幾何的空間局域化），使其得以與光錐以外的高動量谷激子態耦合。
+
 \subsection{費米黃金律與光學躍遷速率}
-根據時變微擾理論的費米黃金律（Fermi's Golden Rule）\cite{sakurai2020modern}，邊緣電漿子誘發特定谷激子模式 $(S, \mathbf{Q})$ 的光學躍遷速率為：
+
+根據費米黃金律（Fermi's Golden Rule）\cite{Sakurai2020}，EP 誘發特定谷激子模式 $(S, \mathbf{Q})$ 的躍遷速率為：
 \begin{equation}
-	\boxed{
-		\Gamma_{S,\mathbf{Q}}
-		= \frac{2\pi}{\hbar}
-		\left|\tilde{M}_{S,\mathbf{Q}}\right|^2
-		\delta\!\left(E^X_{S,\mathbf{Q}} - E_{k_{EDP}}\right)
-	}
-	\label{eq:fermi_golden_rule_EDP}
+	\Gamma_{S,\mathbf{Q}} = \frac{2\pi}{\hbar} \left|\tilde{M}_{S,\mathbf{Q}}\right|^2 \delta\left(E^X_{S,\mathbf{Q}} - E_{k_{EP}}\right)
+	\label{eq:fermi_golden_rule_EP}
 \end{equation}
-其中 $E_{k_{EDP}} = \hbar\omega_{EDP}$ 為邊緣電漿子的本徵能量，$E^X_{S,\mathbf{Q}}$ 為對應激子模式的能量，$\delta$ 函數確保能量守恆。在實際數值計算中，由於系統具備本徵輻射損耗，$\delta$ 函數以具備有限線寬的勞倫茲（Lorentzian）函數代替，以反映系統的本徵損耗效應：
-其中 $E_{k_{EDP}} = \hbar\omega_{EDP}$ 為邊緣電漿子的本徵能量，$E^X_{S,\mathbf{Q}}$ 為對應激子模式的能量，$\delta$ 函數確保能量守恆。在實際數值計算中，$\delta$ 函數以具備有限線寬的勞倫茲（Lorentzian）函數代替，以反映系統的本徵損耗效應：
-\begin{equation}
-	\delta\!\left(E^X_{S,\mathbf{Q}} - E_{k_{EDP}}\right)
-	\rightarrow
-	\frac{1}{\pi}\frac{\Gamma/2}{\left(E^X_{S,\mathbf{Q}} - E_{k_{EDP}}\right)^2 + (\Gamma/2)^2}
-\end{equation}
-其中 $\Gamma$ 為系統之總本徵線寬（Full Width at Half Maximum, FWHM）。
-Eq.~\eqref{eq:fermi_golden_rule_EDP} 的能量守恆條件 $E^X_{S,\mathbf{Q}} = E_{k_{EDP}}$ 在動量空間中確立了**邊緣電漿子色散曲線與 TMD 谷激子色散曲線的共振交點**。唯有在此交點附近，$\Gamma_{S,\mathbf{Q}}$ 方能獲得顯著的共振增強，有效激發單層 TMD 的高動量類光激子態。因此，透過調控金屬薄膜厚度來移動邊緣電漿子色散曲線在動量空間中的位置，即可系統性地工程化此共振交點，此即本研究進行「動量工程（Momentum Engineering）」的核心物理機制，其具體數值結果將於第四章呈現。
-對所有與邊緣電漿子共振的質心動量求和，可得到特定激子分支 $S$ 的總躍遷速率：
-\begin{equation}
-	\Gamma_S = \sum_{\mathbf{Q}} \Gamma_{S,\mathbf{Q}} = \frac{2\pi}{\hbar} \sum_{\mathbf{Q}} \left|\tilde{M}_{S,\mathbf{Q}}\right|^2 \delta\!\left(E^X_{S,\mathbf{Q}} - E_{k_{EDP}}\right)
-	\label{eq:total_rate}
-\end{equation}
-Eq.~\eqref{eq:fermi_golden_rule_EDP} 的能量守恆條件 $E^X_{S,\mathbf{Q}} = E_{k_{EDP}}$ 在動量空間中確立了邊緣電漿子色散曲線與 TMD 谷激子色散曲線的\textbf{共振交點}。唯有在此交點附近，$\Gamma_{S,\mathbf{Q}}$ 方能獲得顯著的共振增強，有效激發單層 TMD 的高動量類光激子態（$S = +$）。因此，透過調控金屬薄膜厚度來移動邊緣電漿子色散曲線的位置，即可系統性地工程化此共振交點在動量空間中的座標，此即本研究進行「動量工程（Momentum Engineering）」的核心物理機制，其具體數值結果將於第四章呈現。
+其中 $E_{k_{EP}} = \hbar\omega_{EP}$ 為邊緣電漿子的本徵能量，$\delta$ 函數明確揭示了系統能量守恆的嚴格限制。
+
+Eq.~\eqref{eq:fermi_golden_rule_EP} 的能量守恆條件 $E^X_{S,\mathbf{Q}} = E_{k_{EP}}$ 在動量空間中確立了 EP 色散曲線與 TMD 谷激子色散曲線的\textbf{共振交點}。唯有在滿足此共振條件的動量座標附近，$\Gamma_{S,\mathbf{Q}}$ 方能獲得顯著的增強，實現對高動量類光激子態（$S = +$）的有效激發。透過調控金屬薄膜厚度以移動 EP 色散曲線，即可系統性地工程化此共振交點，此即本研究進行「動量工程（Momentum Engineering）」的核心物理機制，具體分析結果將於第四章呈現。
