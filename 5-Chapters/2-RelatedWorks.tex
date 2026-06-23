@@ -26,7 +26,7 @@
 \label{sec:theory_BSE}
 % ─────────────────────────────────────────
 
-在單層過渡金屬二硫族化合物（TMD-MLs）中，由於二維量子侷限系統的面外介電屏蔽效應微弱，顯著增強的庫侖交互作用使電子與電洞間的束縛能非常強 \cite{Chernikov2014}。傳統基於密度泛函理論（DFT）的單粒子能帶架構僅能描述獨立載子的準粒子（Quasiparticle）能量，無法有效捕捉電子與電洞之間的庫侖相干束縛態。因此，若要定量描述二維系統中的激子多體效應（Many-body effects），必須從多體微擾理論出發，構建激子系統的多體哈密頓量 $\hat{H}^{X}$ \cite{Lin2024Phd,Haug2009}：
+在單層過渡金屬二硫族化合物（TMD-MLs）中，由於二維量子侷限系統的面外介電屏蔽效應微弱，顯著增強的庫侖交互作用使電子與電洞間的束縛能非常強 \cite{chernikov2014}。傳統基於密度泛函理論（DFT）的單粒子能帶架構僅能描述獨立載子的準粒子（Quasiparticle）能量，無法有效捕捉電子與電洞之間的庫侖相干束縛態。因此，若要定量描述二維系統中的激子多體效應（Many-body effects），必須從多體微擾理論出發，構建激子系統的多體哈密頓量 $\hat{H}^{X}$ \cite{Lin2024Phd,Haug2009}：
 \begin{equation}
 	\hat{H}^{X} = \hat{H}_0 + \hat{H}_{\mathrm{eh}}^d + \hat{H}_{\mathrm{eh}}^x
 	\label{eq:H_exciton_total}
@@ -87,7 +87,7 @@
 \label{sec:theory_pseudospin}
 % ─────────────────────────────────────────
 
-上節所建立的 BSE 框架在應用於單層 TMD 時，由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），直接能隙位於第一布里淵區的 $K$ 與 $K'$ 能谷 \cite{Xiao2012}。在考慮電子--電洞（e-h）交換交互作用（Electron-Hole Exchange Interaction）後，兩個能谷的激子態相互混合，其本徵模式可透過 Pseudo-spin 模型系統性地描述 \cite{Lin2024Phd}。
+上節所建立的 BSE 框架在應用於單層 TMD 時，由於其特殊的 $C_3$ 晶體對稱性破缺以及強烈的自旋軌道耦合（SOC），直接能隙位於第一布里淵區的 $K$ 與 $K'$ 能谷 \cite{xiao2012}。在考慮電子--電洞（e-h）交換交互作用（Electron-Hole Exchange Interaction）後，兩個能谷的激子態相互混合，其本徵模式可透過 Pseudo-spin 模型系統性地描述 \cite{Lin2024Phd}。
 
 將具有特定質心動量 $\hbar \mathbf{Q}$ 的 $K$ 谷激子態 $|\psi^X_{K,\mathbf{Q}}\rangle$ 與 $K'$ 谷激子態 $|\psi^X_{K',\mathbf{Q}}\rangle$ 作為一組二維正交基底，考慮交換交互作用後，系統的有效本徵漢米爾頓矩陣可表示為 \cite{Lin2024Phd,Yu2014}：
 \begin{equation}
@@ -96,7 +96,7 @@
 \end{equation}
 其中 $E^{(0)}_{\tau,\mathbf{Q}}$ 為未考慮交換交互作用時的雙重簡併激子能帶，$\tilde{\Delta}_{\tau,\tau'}(\mathbf{Q})$ 則為由庫侖交換場主導的能谷混合矩陣元 \cite{Lin2024Phd}。
 
-對上述矩陣進行對角化後，本徵模式分裂為兩支色散完全不同的激子能帶 \cite{Lin2024Phd,Qiu2015}：
+對上述矩陣進行對角化後，本徵模式分裂為兩支色散完全不同的激子能帶 \cite{Lin2024Phd,qiu2015}：
 \begin{itemize}
 	\item \textbf{縱向（Longitudinal）類光上能帶}（$S = +$）：受長程交換交互作用驅動，在高動量極限下呈現線性色散，
 	\item \textbf{橫向（Transverse）類粒子下能帶}（$S = -$）：不受交換交互作用影響，維持拋物線型色散。
@@ -134,7 +134,7 @@
 	\label{fig:dipole_fields}
 \end{figure}
 
-此外，上能帶（$S = +$）的類光線性色散 $E^X_{+,\mathbf{Q}} \approx E^X_0 + 2\gamma Q$ 在動量空間中形成一個以光子色散斜率（$\sim c$）遠小於聲速的斜率（$2\gamma/\hbar$）存在的線性錐，此即「類光激子（Light-like exciton）」名稱的由來。這條線性色散曲線與邊緣電漿子的色散曲線的共振交點，正是本研究在第四章中分析動量工程的核心目標。
+此外，上能帶（$S = +$）受長程交換交互作用驅動，在次波長大動量區域下呈現線性色散關係 $E^X_{+,\mathbf{Q}} \approx E^X_0 + 2\gamma Q$。由於其色散關係在動量空間中具有與光子色散相同的線性特性，該模式常被定義為「類光激子（Light-like exciton）」。此線性色散曲線與邊緣電漿子色散曲線之共振交點，確立了動量空間中的相位匹配條件，此即本研究進行「動量工程（Momentum Engineering）」之物理基礎，相關共振特性將於第四章詳述。
 
 
 % ─────────────────────────────────────────
