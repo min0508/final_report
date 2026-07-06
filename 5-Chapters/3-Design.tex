@@ -18,6 +18,7 @@
 在邊界條件方面，MEEP 可以設置不同的邊界來配合模型需求。針對無限延伸的開放空間，可以配置完美匹配層（Perfectly Matched Layer, PML）來吸收向外輻射的電磁波，避免截斷邊界產生的二次反射干擾；如果結構具有對稱性或週期性，也可以使用週期性邊界條件（Periodic Boundary Conditions, PBC）或 Bloch 邊界條件來縮減計算區域，節省運算資源。在波源設定上，軟體內建了平面波（Plane wave）、高斯波束（Gaussian beam）以及點光源偶極子（Dipole source）等不同類型，並且可以自由調整時域波形（如高斯脈衝或連續波）、空間位置和偏振方向，藉此量測不同的電磁激發模式與空間中的場強分佈。
 
 \section{色散關係量測與數值分析方法}
+\label{sec:dispersion_method}
 在二維材料與金屬微納結構中，邊緣電漿子極化激元（Edge Plasmon Polaritons, EPPs）展現出強烈的局域化與特異的色散特性。為了精確捕捉並定量分析 EPPs 的色散關係（Dispersion Relation），本章採用時域有限差分法（Finite-Difference Time-Domain, FDTD）進行數值模擬。然而，若直接進行完整的三維空間模擬，不僅計算資源消耗極大，且難以在高頻率解析度下提取損耗模態。
 
 為此，本節發展了一套等效三維（2.5D）模擬架構，利用系統沿傳播方向的平移對稱性，結合布洛赫定理（Bloch's Theorem）引入傳播動量；並在時域信號處理中，引入諧振反演演算法（Harmonic Inversion, Harminv）。此方法能繞開傳統傅立葉轉換（FFT）受限於不確定性原理的頻率解析度瓶頸，在極短的時間序列中精確提取出各動量對應的複數諧振頻率與品質因子，從而建構出高精度的色散曲線。

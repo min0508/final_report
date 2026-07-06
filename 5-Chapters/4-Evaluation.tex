@@ -1,11 +1,292 @@
-%----------------------------------------------------------------------
-% 實驗設計分析
+% 研究結果分析與討論
 %----------------------------------------------------------------------
 
 \chapter{研究結果分析與討論}
 
-\section{不同金屬的色散關係}
+% ─────────────────────────────────────────
+\section{不同金屬厚度的邊緣電漿子色散關係}
+\label{sec:result_dispersion}
+% ─────────────────────────────────────────
 
+依據第~\ref{sec:dispersion_method} 節所描述的等效三維（2.5D）模擬架構，對 Au 薄膜厚度 10\,nm、20\,nm、30\,nm、40\,nm 四組系統分別進行模擬：於各 $k_z$ 值（即 $k_{EP}$）下對金屬薄膜橫截面（$xy$ 平面）進行二維 FDTD 模擬，透過掃描不同 $k_z$ 對應的本徵頻率，建立完整的 EP 色散關係 $\omega(k_{EP})$。各模式的本徵頻率 $\omega$ 與品質因子 $Q$ 由 \texttt{harminv} 演算法從時域電場訊號中提取。
+
+% ─────────────────────────────────────────
+\subsection{色散特性的幾何調控}
+\label{sec:result_dispersion_geo}
+% ─────────────────────────────────────────
+
+圖~\ref{fig:dispersion_all} 為四組厚度之 EP 色散曲線疊加比較圖。由圖可見，隨 Au 薄膜厚度由 40\,nm 減小至 10\,nm，色散曲線呈現兩項一致的趨勢：
+
+\begin{enumerate}
+	\item \textbf{低頻紅移（Red-shift）}：在相同波向量 $k_{EP}$ 下，薄膜越薄所對應的本徵頻率越低，色散曲線整體向低能量方向移動。
+	\item \textbf{色散平坦化（Flattening）}：隨厚度減小，色散曲線的斜率（即 EP 的群速度 $v_g = d\omega/dk$）減小，曲線趨向水平。
+\end{enumerate}
+
+上述行為的物理根源在於薄膜幾何對邊緣靜電場的調控效應。EP 模式由邊緣處的電荷振盪所驅動，其本徵頻率由邊緣電荷的有效庫侖自能決定。當薄膜厚度減小時，邊緣電荷分佈在厚度方向（$y$）的延伸範圍收縮，邊緣電荷的有效靜電恢復力相應降低，使得在相同 $k_{EP}$ 下的本徵頻率下降。反之，厚度增大時，有限厚度所引入的幾何邊界條件增強了邊緣電荷間的靜電耦合，使色散曲線向高頻移動。
+
+值得注意的是，EP 場在截面內的厚度方向（$y$）與橫向（$x$）同時衰減，整體場型不存在解析封閉式（詳見第~\ref{sec:theory_coupling} 節），因此厚度與色散的定量關係必須完整仰賴數值模擬。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\textwidth]{Figures/Au_EP_dispersion.png}
+	\caption{Au 薄膜厚度 10\,nm 至 40\,nm 之 EP 色散關係疊加比較圖。隨厚度減小，色散曲線呈現低頻紅移與平坦化趨勢。}
+	\label{fig:dispersion_all}
+\end{figure}
+
+圖~\ref{fig:Q_comparison_grid} 進一步以 $Q$-factor 為色彩軸，呈現各厚度下模式品質的動量依賴性。整體而言，$Q$ 值隨 $k_{EP}$ 增大而下降，反映高動量模式受到較強的 Au 歐姆損耗（Ohmic loss）阻尼。較薄的薄膜在低動量段維持相對較高的 $Q$ 值，顯示薄膜幾何有利於在低損耗條件下實現 EP 模式的高動量激發。
+
+\begin{figure}[H]
+	\centering
+	
+	% (a) Au 10 nm
+	\begin{subfigure}[b]{0.48\textwidth}
+		\refstepcounter{subfigure}\label{fig:Q_10nm}
+		\centering
+		\begin{tikzpicture}[inner sep=0, outer sep=0]
+			\node (img) {\includegraphics[width=\textwidth]{Figures/Au_10nm_dispersion.png}};
+			\node[anchor=south west, xshift=0pt, yshift=2pt,
+			font=\bfseries\sffamily,
+			inner sep=2pt]
+			at (img.north west) {(\alph{subfigure})};
+		\end{tikzpicture}
+	\end{subfigure}
+	\hfill
+	% (b) Au 20 nm
+	\begin{subfigure}[b]{0.48\textwidth}
+		\refstepcounter{subfigure}\label{fig:Q_20nm}
+		\centering
+		\begin{tikzpicture}[inner sep=0, outer sep=0]
+			\node (img) {\includegraphics[width=\textwidth]{Figures/Au_20nm_dispersion.png}};
+			\node[anchor=south west, xshift=0pt, yshift=2pt,
+			font=\bfseries\sffamily,
+			inner sep=2pt]
+			at (img.north west) {(\alph{subfigure})};
+		\end{tikzpicture}
+	\end{subfigure}
+
+	
+	% (c) Au 30 nm
+	\begin{subfigure}[b]{0.48\textwidth}
+		\refstepcounter{subfigure}\label{fig:Q_30nm}
+		\centering
+		\begin{tikzpicture}[inner sep=0, outer sep=0]
+			\node (img) {\includegraphics[width=\textwidth]{Figures/Au_30nm_dispersion.png}};
+			\node[anchor=south west, xshift=0pt, yshift=2pt,
+			font=\bfseries\sffamily,
+			inner sep=2pt]
+			at (img.north west) {(\alph{subfigure})};
+		\end{tikzpicture}
+	\end{subfigure}
+	\hfill
+	% (d) Au 40 nm
+	\begin{subfigure}[b]{0.48\textwidth}
+		\refstepcounter{subfigure}\label{fig:Q_40nm}
+		\centering
+		\begin{tikzpicture}[inner sep=0, outer sep=0]
+			\node (img) {\includegraphics[width=\textwidth]{Figures/Au_40nm_dispersion.png}};
+			\node[anchor=south west, xshift=0pt, yshift=2pt,
+			font=\bfseries\sffamily,
+			inner sep=2pt]
+			at (img.north west) {(\alph{subfigure})};
+		\end{tikzpicture}
+	\end{subfigure}
+
+	\caption{不同 Au 薄膜厚度之 EP 色散關係與 $Q$-factor 分佈。色彩軸代表由 \texttt{harminv} 提取的模式品質因子大小，顏色越暖表示 $Q$ 值越高、損耗越低。}
+	\label{fig:Q_comparison_grid}
+\end{figure}
+
+% ─────────────────────────────────────────
+\subsection{與 TMD 谷激子色散之共振交點}
+\label{sec:result_crossing}
+% ─────────────────────────────────────────
+
+EP 色散平坦化直接決定了其與 TMD 激子色散的共振條件。如圖 \ref{fig:dispersion_crossing} 所示，透過將四組厚度的 EP 色散曲線與單層 MoSe$2$ 激子色散疊加，我們觀察到兩者於特定動量點產生共振。依據費米黃金律（Eq.~\ref{eq:fermi_golden_rule_EP}），該共振交點即為能量與動量同時守恆之共振動量 $Q^*$，此處耦合速率 $\Gamma{S,\mathbf{Q}}$ 可達最大值。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\textwidth]{Figures/TMD_EP.png}
+	\caption{四組 Au 薄膜厚度之 EP 色散曲線與 MoSe$_2$ 類光激子縱向色散（$E^X_+$，紅色實線）交點附近之放大圖。各厚度所對應的共振交點以圓點標示。}
+	\label{fig:dispersion_crossing}
+\end{figure}
+
+由圖~\ref{fig:dispersion_crossing} 可見，隨薄膜厚度減小，EP 色散曲線因平坦化而在較高動量處才與激子色散相交，共振動量 $Q^*$ 隨厚度減小而單調向高動量方向移動。表~\ref{tab:crossing_momentum} 將各 EP 模式的 $Q^*$ 與兩個參考量並列：光錐邊界（Light line）與 TMD 色散的交點 $Q_{\text{light}}$，以及解析 Au Bulk SPP 色散與 TMD 色散的交點 $Q_{\text{SPP}}$。
+
+\begin{table}[H]
+	\centering
+	\caption{各模式與 MoSe$_2$ 類光激子縱向色散（$E^X_+$）之共振動量與共振能量。上方兩列為參考量，下方四列為不同厚度 EP 模式之數值結果。}
+	\label{tab:crossing_momentum}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{l c c}
+		\hline\hline
+		模式 & 共振動量 $Q^*$ (nm$^{-1}$) & 共振能量 (eV) \\
+		\hline
+		Light line / TMD 交點 & $0.836 \times 10^{-2}$ & 1.65089 \\
+		Au Bulk SPP / TMD 交點 & $0.861 \times 10^{-2}$ & 1.65092 \\
+		\hline
+		Au 40\,nm EP 模式 & $0.980 \times 10^{-2}$ & 1.65105 \\
+		Au 30\,nm EP 模式 & $1.022 \times 10^{-2}$ & 1.65109 \\
+		Au 20\,nm EP 模式 & $1.110 \times 10^{-2}$ & 1.65119 \\
+		Au 10\,nm EP 模式 & $1.356 \times 10^{-2}$ & 1.65145 \\
+		\hline\hline
+	\end{tabular}
+\end{table}
+
+由表~\ref{tab:crossing_momentum} 可見三點：第一，光錐交點 $Q_{\text{light}} \approx 8.36 \times 10^{-3}$\,nm$^{-1}$ 為自由空間光子所能提供的動量上限，傳統光學激發無法超越此值。第二，Au Bulk SPP 的交點 $Q_{\text{SPP}} \approx 8.61 \times 10^{-3}$\,nm$^{-1}$ 僅略高於光錐，其動量匹配能力相當有限。第三，四組 EP 模式的 $Q^*$ 均顯著高於 $Q_{\text{SPP}}$，其中 10\,nm EP 達到 $1.356 \times 10^{-2}$\,nm$^{-1}$，約為光錐交點的 1.62 倍，充分展示邊緣幾何侷限對動量的增強效應。此共振動量 $Q^*$ 的確立，為後續第~\ref{sec:result_potential} 節計算 EP 近場向量勢以及第~\ref{sec:result_coupling} 節評估耦合矩陣元提供了明確的動量空間操作點。
+
+
+
+% ─────────────────────────────────────────
 \section{金屬的位能}
+\label{sec:result_potential}
+% ─────────────────────────────────────────
 
+為了計算金屬邊緣電漿子與 TMD 激子的耦合矩陣元，必須先取得 EP 近場在 TMD 單層所在位置的精確向量勢（Vector Potential）。在我們的三維模擬座標系中，金屬結構位於下方，EP 沿著金屬邊緣（$y$ 軸）傳播，而在橫向（$x$ 軸）與厚度方向（$z$ 軸）發生衰減。TMD 單層被放置於距離金屬表面 $z=d$ 處的 $xy$ 平面上。
+
+首先，透過三維 FDTD 模擬，我們在系統中置入偶極光源（Dipole source）激發出穩態傳播的 EP 模式，並提取出位於 TMD 高度（$z=d$）的二維空間電場分佈 $\mathbf{E}(x, y, d)$。依據電磁學關係，實空間中的近場向量勢 $\mathbf{A}$ 可由電場直接轉換而得：
+\begin{equation}
+	\mathbf{A}(x, y, z=d) = \frac{\mathbf{E}(x, y, d)}{i\omega}
+	\label{eq:vector_potential_real}
+\end{equation}
+
+由於激子耦合速率的計算是在動量空間中進行，且 TMD 激子的質心動量為二維面內動量 $\mathbf{Q} = (Q_x, Q_y)$，我們需要對提取出的實空間向量勢進行二維空間傅立葉轉換（2D Spatial FFT），將其映射至動量空間：
+\begin{equation}
+	\mathbf{A}(\mathbf{Q}) = \int \mathbf{A}(x, y, d) e^{-i(Q_x x + Q_y y)} dx dy
+	\label{eq:vector_potential_momentum}
+\end{equation}
+有別於等效二維（\texttt{kz\_2d}）模擬中無限長理想結構所產生的完美 $\delta$-函數分佈 $\delta(Q_y - Q^*)$，真實三維結構由於偶極光源特徵與有限傳播長度，在動量空間中會呈現具有特定頻寬的光譜分佈。轉換後所得到的 $\mathbf{A}(Q_x, Q_y)$ 分佈熱圖（Heatmap），即可顯示 EP 近場能量在動量空間的真實分佈情況。
+
+圖~\ref{fig:A_Qx_Qy_heatmaps} 顯示了 Au 40\,nm 厚度下，於三個不同激發能量（1.50\,eV, 1.65\,eV, 1.80\,eV）所提取的動量空間向量勢 $|A(Q_x, Q_y)|^2$ 熱圖。圖中同時標示了該能量下的光錐邊界（綠色虛線圈）、平面 SPP 動量（橘色虛線圈）以及由 \texttt{kz\_2d} 模擬計算所得之 EP 色散動量（青色虛線圈）。
+
+\begin{figure}[H]
+	\centering
+	% 請確認已引入 \usepackage{subcaption}, \usepackage{caption} 與 \usepackage{float}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/heatmap_150eV.png}
+	\end{subfigure}
+	
+	\vspace{1.5em}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/heatmap_165eV.png}
+	\end{subfigure}
+	\caption{Au 40\,nm 結構於不同激發能量下，TMD 所在平面之 EP 向量勢在動量空間 $|\mathbf{A}(Q_x, Q_y)|^2$ 的分佈熱圖。虛線圓圈分別代表光錐、SPP 與 EP 的色散動量半徑（圖續下頁）。}
+\end{figure}
+
+\begin{figure}[H]
+	\ContinuedFloat
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/heatmap_180eV.png}
+	\end{subfigure}
+	\caption{（續前圖）Au 40\,nm 結構於不同激發能量下，TMD 所在平面之 EP 向量勢在動量空間 $|\mathbf{A}(Q_x, Q_y)|^2$ 的分佈熱圖。}
+	\label{fig:A_Qx_Qy_heatmaps}
+\end{figure}
+% [圖 heatmap_150eV.png 等三張圖待補充進 Figures/ 目錄]
+
+由圖~\ref{fig:A_Qx_Qy_heatmaps} 的熱圖可觀察到：首先，EP 能量集中於特定的 $Q_y$ 水平帶狀區域，且該亮帶的 $y$ 方向中心動量與青色虛線圈（EP 色散動量）相符，表示三維模擬所激發的 EP 傳播波包具有與 \texttt{kz\_2d} 色散計算一致的動量特徵。其次，相較於光錐與 SPP 的動量半徑，EP 的共振動量 $k_{EP}$ 明顯較大，具有較佳的動量補償能力。
+
+此外，水平亮帶在橫向動量 $Q_x$ 方向呈現寬廣的延伸（Broadening）。由於 EP 在實空間中高度侷限於金屬邊緣（橫向 $\Delta x$ 較小），根據傅立葉轉換的特性（不確定性原理 $\Delta x \Delta Q_x \sim 1$），其在動量空間必然伴隨較廣的 $Q_x$ 分佈頻譜。這種寬廣的 $Q_x$ 動量頻譜能增加與 TMD 激子波函數在動量空間的重疊機率。
+
+除了探討能量變化的影響，圖~\ref{fig:A_Qx_Qy_thickness_var} 進一步比較在固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度（40\,nm, 30\,nm, 20\,nm）的動量空間勢能分佈。結果顯示，隨著厚度減小，青色虛線圈（EP 色散動量）的半徑擴大，且高能量密度的水平亮帶亦隨之移向高動量（更大 $|Q_y|$）區域。此現象證實了降低金屬厚度能有效提升 EP 的共振動量。
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/A_heatmap_40nm.png}
+	\end{subfigure}
+	
+	\vspace{1.5em}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/A_heatmap_30nm.png}
+	\end{subfigure}
+	\caption{固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度之 TMD 所在平面 EP 向量勢在動量空間 $|\mathbf{A}(Q_x, Q_y)|^2$ 的分佈熱圖。可見隨厚度減小，青色虛線圈（EP色散動量）擴張，水平亮帶亦向高動量移動（圖續下頁）。}
+\end{figure}
+
+\begin{figure}[H]
+	\ContinuedFloat
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/A_heatmap_20nm.png}
+	\end{subfigure}
+	\caption{（續前圖）固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度之 TMD 所在平面 EP 向量勢在動量空間 $|\mathbf{A}(Q_x, Q_y)|^2$ 的分佈熱圖。}
+	\label{fig:A_Qx_Qy_thickness_var}
+\end{figure}
+% [圖 A_heatmap_40nm.png 等三張不同厚度的熱圖待補充]
+
+藉由上述二維傅立葉轉換得到的動量空間向量勢 $\mathbf{A}(\mathbf{Q})$，反映了金屬邊緣 EP 在不同空間頻率下的電磁勢能分佈。然而，金屬近場與 TMD 激子的交互作用強度不僅取決於 $\mathbf{A}(\mathbf{Q})$，還受限於激子波函數的動量分佈與選擇定則。因此，本節建立的 $\mathbf{A}(\mathbf{Q})$ 圖譜將作為下一節（第~\ref{sec:result_coupling} 節）計算激子-邊緣電漿子耦合矩陣元 $\mathcal{M}$ 的輸入參數，以進一步分析兩者的最佳耦合條件。
+
+% ─────────────────────────────────────────
 \section{激子-邊緣電漿子耦合矩陣元}
+\label{sec:result_coupling}
+% ─────────────────────────────────────────
+
+根據第~\ref{sec:theory_coupling} 節的推導，邊緣電漿子與 TMD 激子的近場耦合矩陣元 $\tilde{M}_{S,\mathbf{Q}}$ 取決於動量空間向量勢與激子本徵躍遷偶極矩的內積，如公式 \eqref{eq:coupling_matrix_element_EP} 所示：
+\begin{equation}
+	\tilde{M}_{S,\mathbf{Q}} \approx \frac{E_g}{2i\hbar}\, \mathbf{A}_{k_{EP}}(\mathbf{Q})\big|_{z=d} \cdot \mathbf{D}^{X*}_{S,\mathbf{Q}} \nonumber
+\end{equation}
+由於單層 TMD 晶格的反演對稱破缺，激子躍遷展現出谷依賴的偽自旋（Pseudo-spin）選擇定則。以 $K$ 谷（$\tau = +1$）的類光激子分支（Light-like branch, $S=+$）為例，其躍遷偶極矩 $\mathbf{D}^{X}_{S=+,\mathbf{Q}}$ 在布里淵區中心附近具有圓偏振特性 $(\hat{x} + i\hat{y})$。因此，耦合矩陣元的強度不僅受到向量勢振幅的影響，更由金屬近場的偏振方向與激子圓偏振偶極矩之間的匹配程度所決定。
+
+圖~\ref{fig:M2_heatmaps} 展示了在固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度（40\,nm, 30\,nm, 20\,nm）之 $K$ 谷類光激子與 EP 的耦合強度平方 $|\tilde{M}_{S=+,\mathbf{Q}}|^2$ 動量空間分佈熱圖。與前節的勢能分佈最大的差異在於，圖~\ref{fig:M2_heatmaps} 沿著 $Q_x = 0$ 的中心軸呈現出明顯的低耦合強度暗帶。此現象正是源自於公式 \eqref{eq:coupling_matrix_element_EP} 中的空間偏振分量內積相消干涉：在金屬邊緣正上方，EP 近場的偏振態與激子的圓偏振偶極矩正交，導致耦合強度降為零。這顯示數值模型成功捕捉了 TMD 激子的自旋與谷相依特性。最強的耦合點（紅點標示）發生在非零的橫向動量 $Q_x^*$ 處，且隨著厚度減小（40\,nm $\rightarrow$ 20\,nm），此最佳耦合點一如預期地向高動量區域移動。
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/M2_heatmap_40nm.png}
+	\end{subfigure}
+	
+	\vspace{1.5em}
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/M2_heatmap_30nm.png}
+	\end{subfigure}
+	\caption{固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度之單層 TMD 激子（$K$ 谷類光分支）與 EP 耦合矩陣元平方 $|\tilde{M}_{S=+,\mathbf{Q}}|^2$ 的動量空間分佈熱圖。中心 $Q_x = 0$ 處的暗帶為偽自旋選擇定則所致之相消干涉，紅點標示為最佳動量耦合點（圖續下頁）。}
+\end{figure}
+
+\begin{figure}[H]
+	\ContinuedFloat
+	\centering
+	\begin{subfigure}[b]{0.75\textwidth}
+		\captionsetup{justification=raggedright, singlelinecheck=false}
+		\subcaption{}
+		\centering
+		\includegraphics[width=\textwidth]{Figures/M2_heatmap_20nm.png}
+	\end{subfigure}
+	\caption{（續前圖）固定激發能量（$E = 1.65$\,eV）下，不同 Au 薄膜厚度之單層 TMD 激子（$K$ 谷類光分支）與 EP 耦合矩陣元平方 $|\tilde{M}_{S=+,\mathbf{Q}}|^2$ 的動量空間分佈熱圖。}
+	\label{fig:M2_heatmaps}
+\end{figure}
+% [圖 M2_heatmap.png 待放入 Figures/ 目錄]
+
+進一步將此計算擴展至不同金屬厚度，可直接檢視動量工程對共振工作點的調控效果。圖~\ref{fig:dispersion_crossing} 將 $\text{MoSe}_2$ 激子的色散曲線與不同 Au 薄膜厚度（40\,nm, 30\,nm, 20\,nm）下的 EP 色散關係疊加對比。圖中空心虛線圓圈代表由前述 \texttt{kz\_2d} 等效三維模擬所建立的 EP 色散曲線與激子色散分支的理論交點（Intersection），即滿足費米黃金律（Eq.~\eqref{eq:fermi_golden_rule_EP}）之共振條件。
+
+此外，圖中實心圓點代表由完整三維模擬所擷取出的最佳動量耦合點（即圖~\ref{fig:M2_heatmaps} 中各厚度 $|\tilde{M}_{S=+,\mathbf{Q}}|^2$ 熱圖的最強耦合峰值，紅點位置）。仔細觀察可發現，雖然兩者源自不同的數值模擬架構（無限長等效二維 vs. 有限長度完整三維），實心圓點與空心圓圈在動量空間中雖有微小偏移，但其位置非常接近，且隨著金屬厚度由 40\,nm 減小至 20\,nm，兩者皆沿著 $E = 1.65$\,eV 橫線朝高動量方向產生了高度一致的顯著偏移。
+
+這微小的動量差反映了真實三維有限結構之偶極輻射與理想二維無限長度假設之間的幾何效應差異。然而，整體高度吻合的位移趨勢證明了，藉由改變金屬結構的單一幾何參數（厚度），確實可以在極廣的動量範圍內主動控制最大耦合作用點的座標 $(E^*, Q^*)$。這種高度可調的動量補償機制，為尋找最佳 $\tilde{M}_{S,\mathbf{Q}}$ 並實現室溫下高效激子-邊緣電漿子強耦合奠定了穩固的物理基礎。
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Figures/dispersion_crossing_plot.png}
+	\caption{不同金屬厚度（20\,nm, 30\,nm, 40\,nm）之 EP 色散特徵點與 $\text{MoSe}_2$ 激子色散曲線的交會關係圖。厚度減小使得交點向高動量區偏移，證明了動量工程對共振條件的調控能力。}
+	\label{fig:dispersion_crossing}
+\end{figure}
